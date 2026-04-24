@@ -22,7 +22,6 @@ export class CountComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const observer = new IntersectionObserver(([entry]) => {
-      // Si entra en pantalla y no ha empezado
       if (entry.isIntersecting && !this.hasStarted) {
         this.hasStarted = true;
         this.startCounting();

@@ -1,23 +1,9 @@
-/* --- 1. Animación personalizada (sustituye a AOS) --- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .portfolio-item {
   margin-bottom: 30px;
-  /* Aplicamos la animación por defecto */
-  animation: fadeIn 0.6s ease-out forwards;
+  opacity: 0;
   transition: all 0.4s ease-in-out;
 }
 
-/* --- 2. Filtros (Combinación de antiguo + nuevo) --- */
 .portfolio #portfolio-flters {
   padding: 0;
   margin: 0 auto 25px auto;
@@ -29,7 +15,7 @@
 .portfolio #portfolio-flters li {
   cursor: pointer;
   display: inline-block;
-  padding: 8px 20px; /* Tamaño del nuevo CSS */
+  padding: 8px 20px;
   font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
@@ -38,14 +24,12 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* Estado activo usando el color azul del nuevo CSS */
 .portfolio #portfolio-flters li.filter-active,
 .portfolio #portfolio-flters li:hover {
   color: #007bff; 
   font-weight: bold;
 }
 
-/* --- 3. Contenedor de Imagen y Efectos (Tu diseño original) --- */
 .portfolio .portfolio-wrap {
   position: relative;
   overflow: hidden;
@@ -60,12 +44,11 @@
   object-fit: cover; 
 }
 
-/* El overlay azul que aparece al hacer hover */
 .portfolio .portfolio-wrap::before {
   content: "";
   background: rgba(88, 70, 249, 0.8);
   position: absolute;
-  inset: 30px; /* Forma corta de top/right/bottom/left */
+  inset: 30px;
   transition: all ease-in-out 0.3s;
   z-index: 2;
   opacity: 0;
@@ -76,7 +59,6 @@
   opacity: 1;
 }
 
-/* --- 4. Información y Links --- */
 .portfolio .portfolio-info, 
 .portfolio .portfolio-links {
   position: absolute;
@@ -101,8 +83,27 @@
   bottom: calc(50% - 50px);
 }
 
-/* Estilos de texto internos */
 .portfolio .portfolio-info h4 { font-size: 20px; color: #fff; font-weight: 600; }
 .portfolio .portfolio-info p { color: #fff; font-size: 14px; text-transform: uppercase; }
 .portfolio .portfolio-links a { color: rgba(255, 255, 255, 0.6); font-size: 28px; margin: 0 2px; display: inline-block; }
 .portfolio .portfolio-links a:hover { color: #fff; }
+
+.portfolio-item[hidden] {
+  display: none !important;
+}
+
+.portfolio-item:not([hidden]) {
+  display: block;
+  animation: filterEntry 0.5s ease-out;
+}
+
+@keyframes filterEntry {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
