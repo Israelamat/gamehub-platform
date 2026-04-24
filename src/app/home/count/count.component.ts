@@ -1,54 +1,74 @@
-import { Component, ElementRef, inject, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ScrollRevealDirective } from './../../directives/scroll-reveal'; // Ajusta la ruta
 
 @Component({
   selector: 'app-count',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective],
+  imports: [CommonModule],
   templateUrl: './count.component.html',
   styleUrls: ['./count.component.css']
 })
-export class CountComponent implements AfterViewInit {
-  private elementRef = inject(ElementRef);
+export class CountComponent implements AfterViewInit, OnDestroy {
+  private el = inject(ElementRef);
+  private cdr = inject(ChangeDetectorRef);
 
   countDevelopers = 0;
   countGames = 0;
   countHours = 0;
   countIssues = 0;
-  counting = false;
+
+  private hasStarted = false;
+  private intervals: ReturnType<typeof setInterval>[] = [];
 
   ngAfterViewInit() {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !this.counting) {
+    const observer = new IntersectionObserver(([entry]) => {
+      // Si entra en pantalla y no ha empezado
+      if (entry.isIntersecting && !this.hasStarted) {
+        this.hasStarted = true;
         this.startCounting();
         observer.disconnect();
       }
-    }, { threshold: 0.2 });
+    }, { threshold: 0.1 });
 
-    observer.observe(this.elementRef.nativeElement);
+    observer.observe(this.el.nativeElement);
   }
 
   startCounting() {
-    this.counting = true;
-    this.animateNumber(n => this.countDevelopers = n, 0, 232, 10);
-    this.animateNumber(n => this.countGames = n, 0, 1345, 5);
-    this.animateNumber(n => this.countHours = n, 0, 5000, 2); // Un poco más lento para que se vea
-    this.animateNumber(n => this.countIssues = n, 0, 450, 8);
+    const totalSteps = 116;
+    const frameDuration = 20;
+
+    this.animateWithFixedSteps('countDevelopers', 232, totalSteps, frameDuration);
+    this.animateWithFixedSteps('countGames', 1345, totalSteps, frameDuration);
+    this.animateWithFixedSteps('countHours', 5000, totalSteps, frameDuration);
+    this.animateWithFixedSteps('countIssues', 450, totalSteps, frameDuration);
   }
 
-  private animateNumber(setter: (val: number) => void, start: number, end: number, duration: number) {
-    let current = start;
-    const step = end > 1000 ? Math.ceil(end / 100) : Math.ceil(end / 50); // Ajuste automático de velocidad
+  private animateWithFixedSteps(
+    prop: 'countDevelopers' | 'countGames' | 'countHours' | 'countIssues',
+    end: number,
+    totalSteps: number,
+    duration: number
+  ) {
+    let currentStep = 0;
+    const increment = end / totalSteps;
 
-    const timer = setInterval(() => {
-      current += step;
-      if (current >= end) {
-        setter(end);
-        clearInterval(timer);
+    const interval = setInterval(() => {
+      currentStep++;
+
+      if (currentStep >= totalSteps) {
+        this[prop] = end;
+        clearInterval(interval);
       } else {
-        setter(current);
+        this[prop] = Math.round(increment * currentStep);
       }
+
+      this.cdr.detectChanges();
     }, duration);
+
+    this.intervals.push(interval);
+  }
+
+  ngOnDestroy() {
+    this.intervals.forEach(i => clearInterval(i));
   }
 }
