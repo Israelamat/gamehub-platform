@@ -1,0 +1,72 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.clients {
+  background: #f3f9fd;
+  padding: 20px 0; 
+}
+
+.clients .col-lg-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.img-fluid {
+  filter: grayscale(100%);
+  transition: all 0.4s ease;
+  opacity: 0.7;
+}
+
+.img-fluid:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.client-logo {
+  width: 100%; 
+  max-width: 100px; 
+  filter: grayscale(100%);
+  transition: all 0.4s ease-in-out;
+  display: inline-block;
+  padding: 15px 0;
+  animation: logoIn 0.8s ease-out forwards;
+}
+
+.client-logo:hover {
+  filter: none;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.col-lg-2:nth-child(2) .client-logo { animation-delay: 0.1s; }
+.col-lg-2:nth-child(3) .client-logo { animation-delay: 0.2s; }
+.col-lg-2:nth-child(4) .client-logo { animation-delay: 0.3s; }
+.col-lg-2:nth-child(5) .client-logo { animation-delay: 0.4s; }
+.col-lg-2:nth-child(6) .client-logo { animation-delay: 0.5s; }
+
+@media (max-width: 768px) {
+  .client-logo {
+    width: 70%;
+  }
+}
+
+@media (max-width: 575px) {
+  .client-logo {
+    width: 60%;
+  }
+}

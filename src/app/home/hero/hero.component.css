@@ -1,0 +1,152 @@
+:host {
+  --gradient: linear-gradient(45deg, #5846f9 0%, #7b27d8 100%);
+  display: block;
+  width: 100%;
+}
+
+#hero {
+  width: 100%;
+  height: 100vh;
+  background: var(--gradient) !important;
+  background-size: cover;
+  display: flex !important;
+  align-items: center;
+  overflow: hidden; 
+}
+
+#hero .container,
+#hero .container-fluid {
+  padding-top: 84px;
+}
+
+@keyframes customFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-text-block {
+  animation: customFadeUp 1s ease-out forwards;
+}
+
+.hero-img-block {
+  animation: customFadeUp 1s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0; 
+}
+
+/* Animación de flotado original */
+@keyframes up-down {
+  0% { transform: translateY(10px); }
+  100% { transform: translateY(-10px); }
+}
+
+#hero .animated {
+  animation: up-down 2s ease-in-out infinite alternate-reverse both;
+}
+
+#hero h1 {
+  margin: 0;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 64px;
+  color: #fff;
+}
+
+#hero h2 {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 10px 0 0 0;
+  font-size: 20px;
+}
+
+#hero .btn-get-started {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 10px 28px;
+  border-radius: 5px;
+  transition: 0.5s;
+  margin-top: 30px;
+  color: #fff;
+  border: 2px solid #fff;
+  text-decoration: none;
+}
+
+#hero .btn-get-started:hover {
+  background: #fff;
+  color: #5846f9;
+}
+
+.hero-img img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (min-width: 1200px) {
+  #hero {
+    background-attachment: fixed;
+  }
+}
+
+@media (max-width: 991px) {
+  #hero {
+    text-align: center;
+  }
+
+  #hero .container,
+  #hero .container-fluid {
+    padding-top: 68px;
+  }
+
+  #hero .animated {
+    animation: none; 
+  }
+
+  #hero .hero-img {
+    text-align: center;
+  }
+
+  #hero .hero-img img {
+    width: 50%;
+  }
+  
+  .hero-img-block {
+    animation-delay: 0s;
+  }
+}
+
+@media (max-width: 768px) {
+  #hero h1 {
+    font-size: 26px;
+    line-height: 36px;
+  }
+
+  #hero h2 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  #hero .hero-img img {
+    width: 60%;
+  }
+}
+
+@media (max-width: 575px) {
+  #hero .hero-img img {
+    width: 80%;
+  }
+}
+
+@media (max-width: 575px), (max-height: 600px) {
+  #hero {
+    height: auto;
+    padding: 100px 0 60px 0;
+  }
+}
