@@ -9,17 +9,33 @@ export class ScrollRevealDirective implements AfterViewInit {
   private renderer = inject(Renderer2);
 
   @Input() delay: number = 0;
-  @Input() anim: 'zoom-in' | 'fade-up' | 'slide-left' = 'fade-up';
+  @Input() anim: 'zoom-in' | 'fade-up' | 'slide-left' | 'fade-right' | 'fade-left' = 'fade-up';
 
   ngAfterViewInit() {
     this.renderer.setStyle(this.el.nativeElement, 'opacity', '0');
 
-    if (this.anim === 'zoom-in') {
-      this.renderer.setStyle(this.el.nativeElement, 'transform', 'scale(0.7)');
-    } else {
-      this.renderer.setStyle(this.el.nativeElement, 'transform', 'translateY(30px)');
+    // Configuración del estado inicial según la animación
+    let initialTransform = '';
+    switch (this.anim) {
+      case 'zoom-in':
+        initialTransform = 'scale(0.7)';
+        break;
+      case 'fade-right':
+        initialTransform = 'translateX(-50px)';
+        break;
+      case 'fade-left':
+        initialTransform = 'translateX(50px)';
+        break;
+      case 'slide-left':
+        initialTransform = 'translateX(100px)';
+        break;
+      case 'fade-up':
+      default:
+        initialTransform = 'translateY(30px)';
+        break;
     }
 
+    this.renderer.setStyle(this.el.nativeElement, 'transform', initialTransform);
     this.renderer.setStyle(this.el.nativeElement, 'transition', 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)');
 
     const observer = new IntersectionObserver((entries) => {

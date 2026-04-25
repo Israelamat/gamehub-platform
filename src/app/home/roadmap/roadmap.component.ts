@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 
 @Component({
     selector: 'app-roadmap',
     standalone: true,
-    imports: [],
+    imports: [ScrollRevealDirective],
     templateUrl: './roadmap.component.html',
     styleUrl: './roadmap.component.css'
 })
