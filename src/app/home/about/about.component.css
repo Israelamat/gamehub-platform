@@ -5,7 +5,7 @@
 .about .content h3 {
   font-weight: 600;
   font-size: 32px;
-  color: #2c4964;
+  color: var(--text-main);
 }
 
 .about .content ul {
@@ -20,7 +20,7 @@
 .about .content ul i {
   font-size: 20px;
   padding-right: 4px;
-  color: #5846f9;
+  color: linear-gradient(45deg, var(--accent-2), var(--accent));
 }
 
 .about .content p:last-child {
@@ -36,13 +36,13 @@
   padding: 10px 50px 10px 28px;
   border-radius: 5px;
   transition: 0.5s;
-  color: #fff;
-  background: linear-gradient(45deg, #5846f9 0%, #7b27d8 100%);
+  color: var(--text-main);
+  background: linear-gradient(45deg, var(--accent-2), var(--accent));
   position: relative;
 }
 
 .about .content .read-more:hover {
-  background: linear-gradient(180deg, #5846f9 0%, #7b27d8 100%);
+  background: linear-gradient(1deg, var(--accent-2), var(--accent));
 }
 
 .about .content .read-more i {

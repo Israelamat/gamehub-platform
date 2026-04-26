@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Primary background - deep charcoal/near-black */
+  --bg-dark: #0f0f16;
+  /* Secondary background - dark gray */
+  --bg-section: #161621;          
+  /* Container background - slightly lighter gray for depth */
+  --bg-card: #161625;          
+  /* Elevated elements - lighter surface gray */
+  --bg-surface: #1e1e2e;       
+  
+  /* Accent Colors (Neon) */
+  /* Main brand purple */
+  --accent: #7b27d8;           
+  /* Electric blue */
+  --accent-2: #5846f9;         
+  --accent-soft: rgba(123, 39, 216, 0.3);
+  
+  /* Typography */
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-dark); 
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+}
