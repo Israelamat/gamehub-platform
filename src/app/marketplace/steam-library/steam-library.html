@@ -1,0 +1,78 @@
+<div class="store-container">
+
+  <aside class="filters-sidebar" reveal anim="fade-right">
+    <div class="sidebar-header">
+      <h4><i class="bi bi-sliders2-vertical"></i> Filters</h4>
+    </div>
+
+    <div class="filter-group">
+      <label>Category</label>
+      <select class="custom-select" [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
+        <option value="All Genres">All Genres</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Indie">Indie</option>
+        <option value="RPG">RPG</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div class="label-row">
+        <label>Max Price</label>
+        <span class="price-value">{{ maxPrice() | currency }}</span>
+      </div>
+      <input type="range" class="gradient-range" min="0" max="100" [ngModel]="maxPrice()"
+        (ngModelChange)="maxPrice.set($event)">
+    </div>
+
+    <button class="btn-filter">Apply Filters</button>
+  </aside>
+
+  <main class="games-display">
+
+    <div class="search-bar" reveal anim="fade-up">
+      <input type="text" placeholder="Search Steam games..." [ngModel]="search()" (ngModelChange)="search.set($event)">
+      <i class="bi bi-search"></i>
+    </div>
+
+    @if (isLoading()) {
+    <load-spinner message="SYNCING WITH STEAM..."></load-spinner>
+    } @else {
+    <div class="steam-grid">
+      @for (game of filteredGames(); track game.id) {
+      <div class="game-card" reveal anim="zoom-in" [delay]="$index * 30">
+
+        <div class="game-media">
+          <img [src]="game.headerImage" [alt]="game.title">
+
+          <div class="game-overlay">
+            <span class="price">
+              {{ game.price === 0 ? 'FREE' : (game.price | currency) }}
+            </span>
+          </div>
+        </div>
+
+        <div class="game-info">
+          <div class="game-meta">
+            <span class="dev">{{ game.developer }}</span>
+          </div>
+
+          <h3 class="title">{{ game.title }}</h3>
+
+          <div class="tags">
+            @for (tag of getTags(game.tags).slice(0, 2); track tag) {
+            <span class="tag">{{ tag }}</span>
+            }
+          </div>
+        </div>
+
+      </div>
+      }
+      @empty {
+      <div class="no-results">
+        <p>No games found matching your filters.</p>
+      </div>
+      }
+    </div>
+    }
+  </main>
+</div>

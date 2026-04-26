@@ -1,10 +1,13 @@
-import { Component, Renderer2, inject, DestroyRef, HostListener } from '@angular/core';
+import { Component, Renderer2, inject, DestroyRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-main-menu',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './main-menu.component.html',
-  styleUrls: ['./main-menu.component.css']
+  styleUrls: ['./main-menu.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainMenuComponent {
 
