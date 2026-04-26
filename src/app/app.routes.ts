@@ -23,6 +23,13 @@ export const routes: Routes = [
   },
 
   {
+    path: 'courses',
+    loadChildren: () =>
+      import('./course/course.routes')
+        .then(m => m.courseRoutes)
+  },
+
+  {
     path: '**',
     redirectTo: 'marketplace'
   }

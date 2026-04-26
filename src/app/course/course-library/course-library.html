@@ -1,0 +1,103 @@
+<div class="store-container">
+  <aside class="filters-sidebar" reveal anim="fade-right">
+    <div class="filters-sidebar">
+
+      <div class="sidebar-header">
+        <h4><i class="bi bi-mortarboard"></i> Academic Filters</h4>
+      </div>
+
+      <div class="filter-group search-group">
+        <input type="text" placeholder="Search courses...">
+        <i class="bi bi-search"></i>
+      </div>
+
+      <div class="filter-group">
+        <label>Specialization</label>
+        <select class="custom-select">
+          <option value="All">All Topics</option>
+          <option value="Backend">Backend Development</option>
+          <option value="Frontend">Frontend Architecture</option>
+          <option value="DevOps">Cloud & DevOps</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Duration</label>
+        <select class="custom-select">
+          <option value="all">Any duration</option>
+          <option value="1-5">1 - 5 hours</option>
+          <option value="5-20">5 - 20 hours</option>
+          <option value="20-50">20 - 50 hours</option>
+          <option value="50-100">50 - 100 hours</option>
+          <option value="100-200">100 - 200 hours</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Price</label>
+        <select class="custom-select">
+          <option>All</option>
+          <option>Free</option>
+          <option>Paid</option>
+        </select>
+      </div>
+
+    </div>
+
+    @if (photo()) {
+    <div class="image-preview-box" reveal anim="zoom-in">
+      <label>Preview Image</label>
+      <img [src]="'data:image/png;base64,' + photo()" class="preview-img">
+    </div>
+    }
+  </aside>
+
+  <main class="courses-display">
+
+    @if (loading()) {
+    <load-spinner></load-spinner>
+    } @else {
+    <div class="course-master-grid">
+      @for (course of courses(); track course.id) {
+      <article class="master-card" reveal anim="fade-up" [delay]="$index * 40">
+
+        <div class="master-media">
+          @if (course.image) {
+          <img [src]="'data:image/png;base64,' + course.image" [alt]="course.title">
+          } @else {
+          <div class="image-placeholder"><i class="bi bi-code-slash"></i></div>
+          }
+          <div class="master-overlay">
+            <span class="price-pill">
+              {{ course.price === 0 ? 'FREE' : (course.price | currency) }}
+            </span>
+          </div>
+        </div>
+
+        <div class="master-info">
+          <div class="master-top">
+            <span class="instructor-tag">
+              <i class="bi bi-patch-check-fill"></i> {{ course.createdBy.email.split('@')[0] }}
+            </span>
+            <span class="duration-tag"><i class="bi bi-clock"></i> {{ course.duration }}m</span>
+          </div>
+
+          <h3 class="master-title">{{ course.title }}</h3>
+          <p class="master-description">{{ course.content }}</p>
+
+          <div class="master-footer">
+            <div class="master-date">
+              Enrolled since {{ course.createdAt | date:'MMM yyyy' }}
+            </div>
+            <button class="btn-enroll">
+              <span>ENTER MODULE</span>
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+      }
+    </div>
+    }
+  </main>
+</div>
