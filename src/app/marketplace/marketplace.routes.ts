@@ -9,12 +9,12 @@ export const marketplaceRoutes: Routes = [
         .then(m => m.SteamLibrary)
   },
 
-  // {
-  //   path: 'game/:id',
-  //   loadComponent: () =>
-  //     import('./pages/detail/detail.component')
-  //       .then(m => m.DetailComponent)
-  // },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./game-detail/game-detail')
+        .then(m => m.GameDetail)
+  },
 
   // {
   //   path: 'recommend/:title',

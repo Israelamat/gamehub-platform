@@ -39,7 +39,7 @@
     } @else {
     <div class="steam-grid">
       @for (game of filteredGames(); track game.id) {
-      <div class="game-card" reveal anim="zoom-in" [delay]="$index * 30">
+      <div class="game-card" reveal anim="zoom-in" [routerLink]="[game.id]" [delay]="$index * 30">
 
         <div class="game-media">
           <img [src]="game.headerImage" [alt]="game.title">

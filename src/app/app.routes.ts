@@ -16,7 +16,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'steam-games',
+    path: 'games',
     loadChildren: () =>
       import('./marketplace/marketplace.routes')
         .then(m => m.marketplaceRoutes)

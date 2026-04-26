@@ -5,10 +5,11 @@ import { GameService } from '../../services/game.service';
 import { SteamGame } from '../../interfaces/game-interfaces';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-steam-library',
-  imports: [CommonModule, ScrollRevealDirective, FormsModule, LoadSpinnerComponent],
+  imports: [CommonModule, ScrollRevealDirective, FormsModule, LoadSpinnerComponent, RouterLink],
   templateUrl: './steam-library.html',
   styleUrl: './steam-library.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

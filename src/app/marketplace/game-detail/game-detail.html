@@ -1,0 +1,84 @@
+<div class="detail-container">
+	@if (isLoading()) {
+	<div class="loading-overlay">
+		<load-spinner></load-spinner>
+	</div>
+	} @else if (game()) {
+	<button class="btn-back" (click)="goBack()" reveal anim="fade-left">
+		<i class="bi bi-arrow-left"></i> BACK TO STORE
+	</button>
+
+	<main class="game-detail-grid">
+		<section class="main-content" reveal anim="fade-up">
+			<div class="hero-media">
+				<img [src]="game()?.headerImage" [alt]="game()?.title" class="main-img">
+				<div class="media-overlay"></div>
+			</div>
+
+			<div class="description-section">
+				<h2>About the game</h2>
+				<p class="description-text">{{ game()?.description }}</p>
+
+				<h3 class="section-subtitle">Gallery</h3>
+				<div class="screenshots-grid">
+					@for (ss of screenshots(); track ss) {
+					<div class="screenshot-item" reveal anim="zoom-in">
+						<img [src]="ss" alt="gameplay screenshot">
+					</div>
+					}
+				</div>
+			</div>
+		</section>
+
+		<aside class="side-info" reveal anim="fade-left">
+			<div class="purchase-card">
+				<h1 class="game-title">{{ game()?.title }}</h1>
+
+				<div class="meta-info">
+					<div class="info-row">
+						<span class="label">Developer</span>
+						<span class="value highlight">{{ game()?.developer }}</span>
+					</div>
+					<div class="info-row">
+						<span class="label">Stock</span>
+						<span class="value" [style.color]="game()!.stock > 0 ? '#4ade80' : '#f87171'">
+							{{ game()?.stock }} units
+						</span>
+					</div>
+				</div>
+
+				<div class="tags-group">
+					<p class="mini-label">Tags & Genres</p>
+					<div class="tags-container">
+						@for (genre of gameGenres(); track genre) {
+						<span class="tag genre">{{ genre }}</span>
+						}
+						@for (tag of gameTags(); track tag) {
+						<span class="tag">{{ tag }}</span>
+						}
+					</div>
+				</div>
+
+				<div class="price-action">
+					<div class="price-display">
+						<span class="price-label">Price</span>
+						<span class="amount">
+							{{ game()?.price === 0 ? 'FREE' : (game()?.price | currency) }}
+						</span>
+					</div>
+					<button class="btn-buy" [disabled]="game()?.stock === 0">
+						<i class="bi bi-cart-plus"></i>
+						{{ game()?.stock === 0 ? 'OUT OF STOCK' : 'ADD TO CART' }}
+					</button>
+				</div>
+			</div>
+		</aside>
+	</main>
+	} @else {
+	<div class="not-found" reveal anim="fade-up">
+		<i class="bi bi-exclamation-triangle"></i>
+		<h2>Game not found</h2>
+		<button class="btn-filter" (click)="goBack()">RETURN TO STORE</button>
+	</div>
+	}
+</div>

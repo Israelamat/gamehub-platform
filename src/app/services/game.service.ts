@@ -2,6 +2,7 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { SteamGame } from './../interfaces/game-interfaces';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class GameService {
   private readonly baseUrl = environment.apiUrl;
 
   #games = signal<SteamGame[]>([]);
+  #game = signal<SteamGame>({} as SteamGame);
 
   public games = computed(() => this.#games());
 
@@ -22,8 +24,8 @@ export class GameService {
     });
   }
 
-  lodGameById(id: number): SteamGame | undefined {
-    return this.#games().find(game => game.id === id);
+  lodGameById(id: number): Observable<SteamGame> {
+    return this.http.get<SteamGame>(`${this.baseUrl}/games/${id}`);
   }
 
   getFirstScreenshot(screenshots: string): string {
