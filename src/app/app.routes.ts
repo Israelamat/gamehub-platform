@@ -30,6 +30,20 @@ export const routes: Routes = [
   },
 
   {
+    path: 'contact',
+    loadChildren: () =>
+      import('./contact/contac.routes')
+        .then(m => m.contacRoutes)
+  },
+
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./auth/auth.routes')
+        .then(m => m.authRoutes)
+  },
+
+  {
     path: '**',
     redirectTo: 'marketplace'
   }
