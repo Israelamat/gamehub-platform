@@ -28,6 +28,10 @@ export class GameService {
     return this.http.get<SteamGame>(`${this.baseUrl}/games/${id}`);
   }
 
+  getRecommendations(gameName: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/games/recommend/${gameName}`);
+  }
+
   getFirstScreenshot(screenshots: string): string {
     return screenshots ? screenshots.split(',')[0] : '';
   }

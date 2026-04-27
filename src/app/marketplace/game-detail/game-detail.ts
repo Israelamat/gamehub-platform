@@ -32,6 +32,7 @@ export class GameDetail {
   }
 
   private fetchGameData(currentId: string) {
+    if (!currentId || currentId === 'NaN') return;
     this.isLoading.set(true);
     const appId = Number(currentId);
 

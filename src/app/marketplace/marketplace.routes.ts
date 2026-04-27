@@ -10,16 +10,16 @@ export const marketplaceRoutes: Routes = [
   },
 
   {
+    path: 'recommendations',
+    loadComponent: () =>
+      import('./recommendations/recommendations')
+        .then(m => m.Recommendations)
+  },
+
+  {
     path: ':id',
     loadComponent: () =>
       import('./game-detail/game-detail')
         .then(m => m.GameDetail)
-  },
-
-  // {
-  //   path: 'recommend/:title',
-  //   loadComponent: () =>
-  //     import('./pages/recommend/recommend.component')
-  //       .then(m => m.RecommendComponent)
-  // }
+  }
 ];

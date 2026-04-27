@@ -1,0 +1,38 @@
+<div class="recommend-container">
+  <div class="search-section" reveal>
+    <h2 class="gradient-text">AI Game Matcher</h2>
+    <p>Enter a title from our database to start the analysis</p>
+
+    <form class="ai-input-group" (ngSubmit)="findSimilar()">
+      <input type="text" name="gameSearch" [(ngModel)]="searchQuery" placeholder="Type a game name..." required>
+      <button type="submit" [disabled]="loading() || !searchQuery()">
+        {{ loading() ? 'SCANNING...' : 'ANALYZE' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="results-grid">
+    @if (loading()) {
+    <div class="loading-state">
+      <div class="scanner-line"></div>
+      <p>Analyzing gameplay patterns...</p>
+    </div>
+    } @else if (results().length > 0) {
+    @for (item of results(); track item.app_id) {
+    <article class="rec-card" reveal anim="zoom-in" [delay]="$index * 40">
+      <h3>{{ item.name }}</h3>
+    </article>
+    }
+    } @else {
+    <div class="empty-placeholder" reveal>
+      @if (!hasSearched()) {
+      <i class="bi bi-search-heart"></i>
+      <p>Ready to find your next favorite game?</p>
+      } @else {
+      <i class="bi bi-exclamation-triangle"></i>
+      <p>Game not found in our neural network. Try another title!</p>
+      }
+    </div>
+    }
+  </div>
+</div>
