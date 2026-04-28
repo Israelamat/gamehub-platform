@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, computed, signal, ef
 import { CommonModule, Location } from '@angular/common';
 import { GameService } from '../../services/game.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal';
-import { SteamGame } from '../../interfaces/game-interfaces';
+import { SteamGame } from '../../interfaces/game.interfaces';
 import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
 
 @Component({

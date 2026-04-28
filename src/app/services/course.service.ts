@@ -1,7 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
-import { Course } from './../interfaces/course-interface';
+import { Course } from '../interfaces/course.interface';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({

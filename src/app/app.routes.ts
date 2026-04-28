@@ -45,6 +45,6 @@ export const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: 'marketplace'
+    redirectTo: 'home'
   }
 ];

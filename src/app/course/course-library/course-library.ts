@@ -5,7 +5,7 @@ import { map, startWith, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { CourseService } from '../../services/course.service';
 import { ScrollRevealDirective } from './../../directives/scroll-reveal';
-import { Course } from './../../interfaces/course-interface';
+import { Course } from '../../interfaces/course.interface';
 import { FormsModule } from '@angular/forms';
 import { LoadSpinnerComponent } from "../../shared/load-spinner/load-spinner";
 

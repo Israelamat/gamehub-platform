@@ -1,7 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
-import { SteamGame } from './../interfaces/game-interfaces';
+import { SteamGame } from '../interfaces/game.interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
