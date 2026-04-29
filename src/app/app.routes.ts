@@ -44,6 +44,13 @@ export const routes: Routes = [
   },
 
   {
+    path: 'order',
+    loadChildren: () =>
+      import('./order/order.routes')
+        .then(m => m.orderRoutes)
+  },
+
+  {
     path: '**',
     redirectTo: 'home'
   }
