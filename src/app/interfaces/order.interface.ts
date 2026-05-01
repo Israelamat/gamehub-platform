@@ -1,10 +1,10 @@
 import { Course } from "./course.interface";
 import { SteamGame } from "./game.interfaces";
 
-export interface CreateOrder {
+export interface OrderRequest {
+  user_id?: number;
   game_ids?: number[];
   course_ids?: number[];
-  user_id?: number;
   reference?: string;
 }
 
@@ -22,4 +22,13 @@ export interface OrderData {
   createdAt: string;
   games?: SteamGame[];
   courses?: Course[];
+}
+
+export interface OrderItems {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  type: 'game' | 'course';
 }

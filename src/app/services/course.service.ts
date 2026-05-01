@@ -30,6 +30,12 @@ export class CourseService {
     return this.http.get<Course>(`${this.baseUrl}/course/${id}`);
   }
 
+  getCoursesByIds(ids: number[]): Observable<Course[]> {
+    return this.http.post<Course[]>(
+      `${this.baseUrl}/courses/by-ids`,
+      { ids }
+    );
+  }
 
   createCourse(courseData: Partial<Course>): Observable<Course> {
     return this.http.post<Course>(`${this.baseUrl}/course`, courseData).pipe(

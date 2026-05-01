@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, linkedSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../services/order.service';
+import { GameService } from '../../services/game.service';
+import { CourseService } from '../../services/course.service';
 import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
-import { OrderData } from '../../interfaces/order.interface';
-import { Course } from "./../../interfaces/course.interface";
-import { SteamGame } from "./../../interfaces/game.interfaces";
+import { OrderItems } from '../../interfaces/order.interface';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-order',
@@ -16,51 +17,79 @@ import { SteamGame } from "./../../interfaces/game.interfaces";
 })
 export class Order {
   private orderService = inject(OrderService);
+  private gameService = inject(GameService);
+  private courseService = inject(CourseService);
 
   isLoading = signal(true);
-
-  rawOrders = linkedSignal(() => this.orderService.orders());
-
-  constructor() {
-    this.orderService.resetOrders();
-    this.orderService.loadOrderByUserId(1);
-
-    effect(() => {
-      const currentOrders = this.rawOrders();
-      if (currentOrders) {
-        requestAnimationFrame(() => {
-          this.isLoading.set(false);
-        });
-      }
-    });
-  }
+  orderItemsData = signal<OrderItems[]>([]);
 
   orderItems = computed(() => {
     if (this.isLoading()) return [];
-
-    const allOrders = this.rawOrders();
-    if (!allOrders || allOrders.length === 0) return [];
-
-    const latestOrder = allOrders[0];
-
-    const games = (latestOrder.games || []).map((g: SteamGame) => ({
-      title: g.title,
-      description: g.description,
-      price: g.price,
-      image: g.headerImage,
-      type: 'game'
-    }));
-
-    const courses = (latestOrder.courses || []).map((c: Course) => ({
-      title: c.title,
-      description: c.content,
-      price: c.price,
-      image: c.image || 'assets/images/default-course.jpg',
-      type: 'course'
-    }));
-
-    return [...games, ...courses];
+    return this.orderItemsData();
   });
+
+  cart = this.orderService.createOrderData;
+
+  constructor() {
+    effect(() => {
+      const currentCart = this.orderService.createOrderData();
+
+      const gameIds = currentCart.game_ids ?? [];
+      const courseIds = currentCart.course_ids ?? [];
+
+      if (!gameIds.length && !courseIds.length) {
+        this.orderItemsData.set([]);
+        return;
+      }
+
+      this.loadCart(gameIds, courseIds);
+    });
+  }
+
+  private async loadCart(gameIds: number[], courseIds: number[]) {
+
+    this.isLoading.set(true);
+
+    try {
+
+      const games = gameIds.length
+        ? await firstValueFrom(this.gameService.getGamesByIds(gameIds))
+        : [];
+
+      const courses = courseIds.length
+        ? await firstValueFrom(this.courseService.getCoursesByIds(courseIds))
+        : [];
+
+      const mappedGames: OrderItems[] = games.map((game: any) => ({
+        id: Number(game.appId),
+        title: game.title,
+        description: game.description,
+        price: game.price,
+        image: game.headerImage,
+        type: 'game'
+      }));
+
+      const mappedCourses: OrderItems[] = courses.map((course: any) => ({
+        id: course.id,
+        title: course.title,
+        description: course.content,
+        price: course.price,
+        image: course.image || 'assets/images/default-course.jpg',
+        type: 'course'
+      }));
+
+      this.orderItemsData.set([
+        ...mappedGames,
+        ...mappedCourses
+      ]);
+
+    } catch (error) {
+      console.error('Error loading cart:', error);
+      this.orderItemsData.set([]);
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
 
   subtotal = computed(() =>
     this.orderItems().reduce((acc, item) => acc + (item.price || 0), 0)
@@ -70,7 +99,7 @@ export class Order {
 
   total = computed(() => this.subtotal() + this.taxes());
 
-  removeItem(index: number) {
-    console.log('Remove item index:', index);
+  removeItem(id: number, type: 'game' | 'course') {
+    console.log("Remove item")
   }
 }

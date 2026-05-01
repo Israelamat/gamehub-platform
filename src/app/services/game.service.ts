@@ -27,6 +27,13 @@ export class GameService {
     return this.http.get<SteamGame>(`${this.baseUrl}/games/${id}`);
   }
 
+  getGamesByIds(ids: number[]): Observable<SteamGame[]> {
+    return this.http.post<SteamGame[]>(
+      `${this.baseUrl}/games/by-ids`,
+      { ids }
+    );
+  }
+
   getRecommendations(gameName: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/games/recommend/${gameName}`);
   }
