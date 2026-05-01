@@ -6,6 +6,10 @@ import { CourseService } from '../../services/course.service';
 import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
 import { OrderItems } from '../../interfaces/order.interface';
 import { firstValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
+import { MailService } from '../../services/mail.service';
+import { environment } from '../../../environments/environment.development';
+import { ContactRequest } from '../../interfaces/contact.interface';
 
 @Component({
   selector: 'app-order',
@@ -16,10 +20,12 @@ import { firstValueFrom } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Order {
-  private orderService = inject(OrderService);
-  private gameService = inject(GameService);
-  private courseService = inject(CourseService);
+  private readonly orderService = inject(OrderService);
+  private readonly gameService = inject(GameService);
+  private readonly courseService = inject(CourseService);
+  private readonly mailService = inject(MailService);
 
+  MAIL = environment.Mail;
   isLoading = signal(true);
   orderItemsData = signal<OrderItems[]>([]);
 
@@ -30,6 +36,22 @@ export class Order {
 
   cart = this.orderService.createOrderData;
 
+  defaultMessage: ContactRequest = {
+    name: 'Ariamat',
+    email: this.MAIL,
+    subject: 'Purchase Confirmation',
+    message: `Hello,
+
+Thank you for your purchase. Your order has been successfully completed.
+
+We are processing your items and you will receive them shortly.
+
+If you have any questions, feel free to contact our support team.
+
+Best regards,
+GameHub Team`
+  };
+
   constructor() {
     effect(() => {
       const currentCart = this.orderService.createOrderData();
@@ -39,6 +61,7 @@ export class Order {
 
       if (!gameIds.length && !courseIds.length) {
         this.orderItemsData.set([]);
+        this.isLoading.set(false);
         return;
       }
 
@@ -89,6 +112,63 @@ export class Order {
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+  checkout() {
+    const userId = 1;
+
+    this.isLoading.set(true);
+
+    this.orderService.checkout(userId).subscribe({
+      next: (response) => {
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Order completed!',
+          text: response.message,
+          confirmButtonColor: 'var(--accent)'
+        });
+
+        this.orderService.resetOrder();
+
+        this.mailService.sendMessage(this.defaultMessage).subscribe({
+          next: (res) => {
+            if (res.success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Email sent',
+                text: res.message
+              });
+            } else {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Order created but email failed'
+              });
+            }
+          },
+          error: () => {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Order created but email failed'
+            });
+          },
+          complete: () => {
+            this.isLoading.set(false);
+          }
+        });
+      },
+
+      error: (err) => {
+        console.error(err);
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error processing order'
+        });
+
+      }
+    });
   }
 
   subtotal = computed(() =>

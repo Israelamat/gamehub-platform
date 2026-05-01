@@ -55,6 +55,7 @@ export class OrderService {
 
   checkout(userId: number): Observable<OrderResponse> {
     const finalOrder = { ...this.#orderRequest(), user_id: userId };
+    console.log('🛒 ORDER TO SEND:', finalOrder);
     return this.http.post<OrderResponse>(`${this.baseUrl}/order`, finalOrder);
   }
 
