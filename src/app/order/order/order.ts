@@ -1,40 +1,76 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, linkedSignal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { OrderService } from '../../services/order.service';
+import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
+import { OrderData } from '../../interfaces/order.interface';
+import { Course } from "./../../interfaces/course.interface";
+import { SteamGame } from "./../../interfaces/game.interfaces";
 
 @Component({
   selector: 'app-order',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, LoadSpinnerComponent],
   templateUrl: './order.html',
   styleUrl: './order.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Order {
-  cartItems = [
-    {
-      title: 'Mastering Symfony 7',
-      description: 'Advanced backend development',
-      price: 49.99,
-      image: ''
-    },
-    {
-      title: 'CyberPunk Quest',
-      description: 'Digital Edition - PC',
-      price: 29.99,
-      image: ''
-    }
-  ];
+  private orderService = inject(OrderService);
 
-  get subtotal(): number {
-    return this.cartItems.reduce((acc, item) => acc + item.price, 0);
+  isLoading = signal(true);
+
+  rawOrders = linkedSignal(() => this.orderService.orders());
+
+  constructor() {
+    this.orderService.resetOrders();
+    this.orderService.loadOrderByUserId(1);
+
+    effect(() => {
+      const currentOrders = this.rawOrders();
+      if (currentOrders) {
+        requestAnimationFrame(() => {
+          this.isLoading.set(false);
+        });
+      }
+    });
   }
 
-  get taxes(): number {
-    return this.subtotal * 0.21;
-  }
+  orderItems = computed(() => {
+    if (this.isLoading()) return [];
 
-  get total(): number {
-    return this.subtotal + this.taxes;
-  }
+    const allOrders = this.rawOrders();
+    if (!allOrders || allOrders.length === 0) return [];
+
+    const latestOrder = allOrders[0];
+
+    const games = (latestOrder.games || []).map((g: SteamGame) => ({
+      title: g.title,
+      description: g.description,
+      price: g.price,
+      image: g.headerImage,
+      type: 'game'
+    }));
+
+    const courses = (latestOrder.courses || []).map((c: Course) => ({
+      title: c.title,
+      description: c.content,
+      price: c.price,
+      image: c.image || 'assets/images/default-course.jpg',
+      type: 'course'
+    }));
+
+    return [...games, ...courses];
+  });
+
+  subtotal = computed(() =>
+    this.orderItems().reduce((acc, item) => acc + (item.price || 0), 0)
+  );
+
+  taxes = computed(() => this.subtotal() * 0.21);
+
+  total = computed(() => this.subtotal() + this.taxes());
 
   removeItem(index: number) {
-    this.cartItems.splice(index, 1);
+    console.log('Remove item index:', index);
   }
 }

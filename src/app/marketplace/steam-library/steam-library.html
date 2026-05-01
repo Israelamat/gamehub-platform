@@ -35,7 +35,7 @@
     </div>
 
     @if (isLoading()) {
-    <load-spinner message="SYNCING WITH STEAM..."></load-spinner>
+    <load-spinner></load-spinner>
     } @else {
     <div class="steam-grid">
       @for (game of filteredGames(); track game.id) {

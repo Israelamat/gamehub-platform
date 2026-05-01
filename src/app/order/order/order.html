@@ -1,10 +1,13 @@
 <div class="checkout-container">
   <h1 class="page-title">Your <span class="text-gradient">Cart</span></h1>
 
+  @if (isLoading()) {
+  <load-spinner></load-spinner>
+  } @else {
   <div class="checkout-layout">
     <div class="items-section">
 
-      @for (item of cartItems; track item.title; let i = $index) {
+      @for (item of orderItems(); track $index; let i = $index) {
       <div class="card item-card">
         <div class="item-info">
           <img [src]="item.image" [alt]="item.title" class="item-img">
@@ -34,22 +37,22 @@
 
         <div class="summary-row">
           <span>Subtotal</span>
-          <span>{{ subtotal.toFixed(2) }}€</span>
+          <span>{{ subtotal().toFixed(2) }}€</span>
         </div>
 
         <div class="summary-row">
           <span>Taxes (21%)</span>
-          <span>{{ taxes.toFixed(2) }}€</span>
+          <span>{{ taxes().toFixed(2) }}€</span>
         </div>
 
         <hr class="divider">
 
         <div class="summary-row total">
           <span>Total</span>
-          <span class="price-tag">{{ total.toFixed(2) }}€</span>
+          <span class="price-tag">{{ total().toFixed(2) }}€</span>
         </div>
 
-        @if (cartItems.length > 0) {
+        @if (orderItems().length > 0) {
         <button class="btn-checkout">
           Proceed to Payment
           <i class="fas fa-arrow-right"></i>
@@ -66,4 +69,5 @@
       </div>
     </div>
   </div>
+  }
 </div>

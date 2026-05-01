@@ -3,6 +3,7 @@
   margin: 100px auto 40px auto; 
   padding: 0 20px;
   min-height: 80vh; 
+  color: var(--text-main);
 }
 
 @media (max-width: 768px) {
@@ -68,6 +69,7 @@
   gap: 20px;
   font-weight: 700;
   font-size: 1.1rem;
+  color: var(--text-muted);
 }
 
 .muted {
@@ -93,6 +95,12 @@
   margin-top: 0;
   font-size: 1.5rem;
   margin-bottom: 25px;
+}
+
+.item-info h3, 
+.summary-card h2 {
+  color: var(--text-main);
+  margin-bottom: 5px; 
 }
 
 .summary-row {
@@ -146,6 +154,13 @@
   font-size: 0.8rem;
   color: var(--text-muted);
   margin-top: 20px;
+}
+
+.empty-msg p {
+  color: var(--text-main) !important;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 0;
 }
 
 @media (max-width: 900px) {

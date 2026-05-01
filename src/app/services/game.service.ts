@@ -13,7 +13,6 @@ export class GameService {
   private readonly baseUrl = environment.apiUrl;
 
   #games = signal<SteamGame[]>([]);
-  #game = signal<SteamGame>({} as SteamGame);
 
   public games = computed(() => this.#games());
 
