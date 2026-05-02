@@ -10,11 +10,12 @@ import Swal from 'sweetalert2';
 import { MailService } from '../../services/mail.service';
 import { environment } from '../../../environments/environment.development';
 import { ContactRequest } from '../../interfaces/contact.interface';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 
 @Component({
   selector: 'app-order',
   standalone: true,
-  imports: [CommonModule, LoadSpinnerComponent],
+  imports: [CommonModule, LoadSpinnerComponent, ScrollRevealDirective],
   templateUrl: './order.html',
   styleUrl: './order.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

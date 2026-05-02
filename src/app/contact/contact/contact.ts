@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { MailService } from '../../services/mail.service';
 import { ContactRequest } from '../../interfaces/contact.interface';
 import Swal from 'sweetalert2';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 
 @Component({
   selector: 'app-contact',
-  imports: [FormsModule],
+  imports: [FormsModule, ScrollRevealDirective],
   templateUrl: './contact.html',
   styleUrl: './contact.css',
 })
