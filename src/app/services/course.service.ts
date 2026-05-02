@@ -16,29 +16,28 @@ export class CourseService {
   public courses = computed(() => this.#courses());
 
   loadCourses(): void {
-    this.http.get<Course[]>(`${this.baseUrl}/course`).subscribe({
+    this.http.get<Course[]>('/course').subscribe({
       next: (data) => this.#courses.set(data),
       error: (err) => console.error('Error loading courses:', err)
     });
   }
 
   getCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(`${this.baseUrl}/course`);
+    return this.http.get<Course[]>('/course');
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.http.get<Course>(`${this.baseUrl}/course/${id}`);
+    return this.http.get<Course>(`$'/course/${id}`);
   }
 
   getCoursesByIds(ids: number[]): Observable<Course[]> {
-    return this.http.post<Course[]>(
-      `${this.baseUrl}/courses/by-ids`,
+    return this.http.post<Course[]>('/courses/by-ids',
       { ids }
     );
   }
 
   createCourse(courseData: Partial<Course>): Observable<Course> {
-    return this.http.post<Course>(`${this.baseUrl}/course`, courseData).pipe(
+    return this.http.post<Course>(`$'/course`, courseData).pipe(
       tap(() => this.loadCourses())
     );
   }

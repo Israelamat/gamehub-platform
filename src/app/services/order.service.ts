@@ -10,7 +10,6 @@ import { OrderData } from '../interfaces/order.interface';
 })
 export class OrderService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.apiUrl;
   private readonly STORAGE_KEY = environment.STORAGE_KEY;
 
   #orders = signal<OrderData[]>([]);
@@ -55,22 +54,21 @@ export class OrderService {
 
   checkout(userId: number): Observable<OrderResponse> {
     const finalOrder = { ...this.#orderRequest(), user_id: userId };
-    console.log('🛒 ORDER TO SEND:', finalOrder);
-    return this.http.post<OrderResponse>(`${this.baseUrl}/order`, finalOrder);
+    return this.http.post<OrderResponse>('/order', finalOrder);
   }
 
   loadOrderByUserId(userId: number): void {
-    this.http.get<OrderData[]>(`${this.baseUrl}/order/user/${userId}`).subscribe({
+    this.http.get<OrderData[]>(`/order/user/${userId}`).subscribe({
       next: (data) => this.#orders.set(data),
       error: (err) => console.error('Error loading orders:', err),
     })
   }
 
   getOrderById(id: number): Observable<OrderData> {
-    return this.http.get<OrderData>(`${this.baseUrl}/${id}`);
+    return this.http.get<OrderData>(`/order/${id}`);
   }
 
   getOrder(userId: number): Observable<OrderData[]> {
-    return this.http.get<OrderData[]>(`${this.baseUrl}/user/${userId}`);
+    return this.http.get<OrderData[]>(`order/user/${userId}`);
   }
 }

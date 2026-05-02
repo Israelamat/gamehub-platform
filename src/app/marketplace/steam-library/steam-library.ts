@@ -61,4 +61,24 @@ export class SteamLibrary {
   getTags(tags: string) {
     return this.gameService.getTagsArray(tags);
   }
+
+  // --- CONFIGURACIÓN PARA PAGINACIÓN FUTURA ---
+  /* 
+    Cuando implementes la paginación, el isLoading no debe ser un signal manual.
+    Debería reaccionar automáticamente al estado de la petición.
+    
+    Ejemplo:
+    private readonly gamesResource = toSignal(
+      toObservable(this.query).pipe( // 'query' sería un computed con (page, search, etc)
+        tap(() => this.isLoading.set(true)), // Empezamos a cargar
+        switchMap(q => this.gameService.getGames(q)), // Llamada real a la API
+        tap(() => this.isLoading.set(false)), // Terminamos de cargar
+        catchError(() => {
+          this.isLoading.set(false);
+          return of([]);
+        })
+      ),
+      { initialValue: [] }
+    );
+  */
 }

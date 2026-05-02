@@ -1,6 +1,5 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
 import { SteamGame } from '../interfaces/game.interfaces';
 import { Observable } from 'rxjs';
 
@@ -10,32 +9,31 @@ import { Observable } from 'rxjs';
 
 export class GameService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.apiUrl;
 
   #games = signal<SteamGame[]>([]);
 
   public games = computed(() => this.#games());
 
   loadGames(): void {
-    this.http.get<SteamGame[]>(`${this.baseUrl}/games`).subscribe({
+    this.http.get<SteamGame[]>('/games').subscribe({
       next: (data) => this.#games.set(data),
       error: (err) => console.error('Error loading games:', err)
     });
   }
 
   lodGameById(id: number): Observable<SteamGame> {
-    return this.http.get<SteamGame>(`${this.baseUrl}/games/${id}`);
+    return this.http.get<SteamGame>(`/games/${id}`);
   }
 
   getGamesByIds(ids: number[]): Observable<SteamGame[]> {
     return this.http.post<SteamGame[]>(
-      `${this.baseUrl}/games/by-ids`,
+      '/games/by-ids',
       { ids }
     );
   }
 
   getRecommendations(gameName: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/games/recommend/${gameName}`);
+    return this.http.get(`/games/recommend/${gameName}`);
   }
 
   getFirstScreenshot(screenshots: string): string {
