@@ -1,13 +1,12 @@
 <div class="profile-container">
 
-  <div class="profile-card" reveal anim="fade-up">
+  <div class="profile-wrapper" reveal anim="fade-up">
 
     <h1 class="profile-title">Profile</h1>
     <p class="profile-subtitle">
       Your account information and purchase history
     </p>
 
-    <!-- USER INFO -->
     @if (user(); as u) {
     <div class="user-box">
 
@@ -26,14 +25,12 @@
 
     <hr class="divider" />
 
-    <h2 class="section-title">Orders</h2> 
+    <h2 class="section-title">Orders</h2>
 
-    <!-- LOADING -->
     @if (loading()) {
     <p class="loading">Loading orders...</p>
     }
 
-    <!-- ORDERS -->
     @if (!loading()) {
 
     @for (order of orders(); track order.id) {

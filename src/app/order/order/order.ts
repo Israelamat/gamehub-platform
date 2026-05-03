@@ -30,7 +30,6 @@ export class Order {
   private readonly mailService = inject(MailService);
   currentUser = inject(AuthService).currentUser;
 
-  MAIL = environment.Mail;
   isLoading = signal(true);
   orderItemsData = signal<OrderItems[]>([]);
 
