@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment.development';
 import { OrderResponse, OrderRequest } from '../interfaces/order.interface';
 import { Observable } from 'rxjs';
 import { OrderData } from '../interfaces/order.interface';
+import { Order } from '../order/order/order';
 
 @Injectable({
   providedIn: 'root',
@@ -68,7 +69,7 @@ export class OrderService {
     return this.http.get<OrderData>(`/order/${id}`);
   }
 
-  getOrder(userId: number): Observable<OrderData[]> {
-    return this.http.get<OrderData[]>(`order/user/${userId}`);
+  getUserOrders(userId: number): Observable<any[]> {
+    return this.http.get<OrderData[]>(`/order/user/${userId}`);
   }
 }

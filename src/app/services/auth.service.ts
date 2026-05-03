@@ -1,15 +1,14 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { LoginResponse, User } from '../interfaces/auth.interface';
+import { Observable, of, tap } from 'rxjs';
+import { AuthResponse, LoginResponse, User } from '../interfaces/auth.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private currentUserSubject = new BehaviorSubject<User | null>(null); public currentUser = this.currentUserSubject.asObservable();
-  public currentUser$ = this.currentUserSubject.asObservable();
+  public currentUser = signal<User | null>(null);
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>('/user/login', {
@@ -18,20 +17,13 @@ export class AuthService {
     }).pipe(
       tap((res) => {
         localStorage.setItem('token', res.token);
-        console.log(res);
+        this.currentUser.set(res.user);
       })
     );
   }
 
-  loadCurrentUser() {
-    const user = localStorage.getItem('user_data');
-    if (user) {
-      this.currentUserSubject.next(JSON.parse(user));
-    }
-  }
-
-  register(data: { email: string; password: string }): Observable<any> {
-    return this.http.post('/user', data);
+  register(data: { email: string; password: string }) {
+    return this.http.post<AuthResponse>('/user', data);
   }
 
   getToken(): string | null {
@@ -40,11 +32,10 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('user_data');
-    this.currentUserSubject.next(null);
+    this.currentUser.set(null);
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    return !!this.getToken() && !!this.currentUser();
   }
 }

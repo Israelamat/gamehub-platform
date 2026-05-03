@@ -11,6 +11,9 @@ import { MailService } from '../../services/mail.service';
 import { environment } from '../../../environments/environment.development';
 import { ContactRequest } from '../../interfaces/contact.interface';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal';
+import { AuthService } from '../../services/auth.service';
+import { SteamGame } from '../../interfaces/game.interfaces';
+import { Course } from '../../interfaces/course.interface';
 
 @Component({
   selector: 'app-order',
@@ -25,6 +28,7 @@ export class Order {
   private readonly gameService = inject(GameService);
   private readonly courseService = inject(CourseService);
   private readonly mailService = inject(MailService);
+  currentUser = inject(AuthService).currentUser;
 
   MAIL = environment.Mail;
   isLoading = signal(true);
@@ -38,8 +42,8 @@ export class Order {
   cart = this.orderService.createOrderData;
 
   defaultMessage: ContactRequest = {
-    name: 'Ariamat',
-    email: this.MAIL,
+    name: this.currentUser()?.email ?? 'Guest',
+    email: this.currentUser()?.email ?? 'Guest',
     subject: 'Purchase Confirmation',
     message: `Hello,
 
@@ -54,6 +58,7 @@ GameHub Team`
   };
 
   constructor() {
+    console.log(this.currentUser())
     effect(() => {
       const currentCart = this.orderService.createOrderData();
 
@@ -84,7 +89,7 @@ GameHub Team`
         ? await firstValueFrom(this.courseService.getCoursesByIds(courseIds))
         : [];
 
-      const mappedGames: OrderItems[] = games.map((game: any) => ({
+      const mappedGames: OrderItems[] = games.map((game: SteamGame) => ({
         id: Number(game.appId),
         title: game.title,
         description: game.description,
@@ -93,7 +98,7 @@ GameHub Team`
         type: 'game'
       }));
 
-      const mappedCourses: OrderItems[] = courses.map((course: any) => ({
+      const mappedCourses: OrderItems[] = courses.map((course: Course) => ({
         id: course.id,
         title: course.title,
         description: course.content,
@@ -115,8 +120,7 @@ GameHub Team`
     }
   }
 
-  checkout() {
-    const userId = 1;
+  checkout(userId: number) {
 
     this.isLoading.set(true);
 

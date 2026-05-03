@@ -51,6 +51,13 @@ export const routes: Routes = [
   },
 
   {
+    path: 'profile',
+    loadChildren: () =>
+      import('./profile/profile.routes')
+        .then(m => m.profileRoutes)
+  },
+
+  {
     path: '**',
     redirectTo: 'home'
   }

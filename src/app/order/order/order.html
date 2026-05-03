@@ -1,5 +1,5 @@
 <div class="checkout-container">
-  <h1 class="page-title">Your <span class="text-gradient">Cart</span></h1>
+  <h1 class="page-title">Your Cart</h1>
 
   @if (isLoading()) {
   <load-spinner></load-spinner>
@@ -53,7 +53,7 @@
         </div>
 
         @if (orderItems().length > 0) {
-        <button class="btn-checkout" (click)="checkout()">
+        <button class="btn-checkout" (click)="checkout(currentUser()!.id)">
           Proceed to Payment
           <i class="fas fa-arrow-right"></i>
         </button>

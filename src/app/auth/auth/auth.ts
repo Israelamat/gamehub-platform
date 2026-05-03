@@ -104,7 +104,6 @@ export class Auth {
           text: 'Now you can login',
           confirmButtonColor: 'var(--accent)'
         });
-
         this.mode = 'login';
       },
 

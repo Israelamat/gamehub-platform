@@ -1,0 +1,123 @@
+.profile-container {
+  padding: 120px 5% 50px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.profile-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(88, 70, 249, 0.2);
+  border-radius: 24px;
+  padding: 40px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.profile-title {
+  background-color: var(--main-gradient);/* 1. Texto base siempre blanco (adiós a la C negra) */
+  color: #ffffff; 
+  font-weight: 800;
+  font-size: 30px;
+  margin-bottom: 15px;
+  display: block;
+  border-left: 5px solid var(--accent);
+  padding-left: 15px;
+}
+
+.profile-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+.user-box {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.info-value {
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text-main);
+}
+
+.section-title {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: var(--text-main);
+}
+
+.divider {
+  margin: 25px 0;
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+
+.order-box {
+  background: var(--bg-surface);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.order-ref {
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.order-meta p {
+  margin: 4px 0;
+  color: var(--text-muted);
+}
+
+.items-section {
+  margin-top: 15px;
+}
+
+.item-card {
+  display: flex;
+  gap: 10px;
+  background: var(--bg-card);
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.item-card img {
+  width: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.item-title {
+  font-weight: 600;
+}
+
+.item-price {
+  color: var(--accent);
+}
+
+.course-item {
+  color: var(--text-muted);
+  margin: 5px 0;
+}
+
+.loading {
+  color: var(--accent-2);
+}
