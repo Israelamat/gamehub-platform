@@ -8,6 +8,8 @@ import { ScrollRevealDirective } from './../../directives/scroll-reveal';
 import { Course } from '../../interfaces/course.interface';
 import { FormsModule } from '@angular/forms';
 import { LoadSpinnerComponent } from "../../shared/load-spinner/load-spinner";
+import Swal from 'sweetalert2';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-course-library',
@@ -18,6 +20,7 @@ import { LoadSpinnerComponent } from "../../shared/load-spinner/load-spinner";
 })
 export class CourseLibrary {
   private courseService = inject(CourseService);
+  private readonly orderService = inject(OrderService);
 
   private courseData = this.courseService.getCourses().pipe(
     map((data) => ({ data, loading: false })),
@@ -40,5 +43,45 @@ export class CourseLibrary {
   onImageEncoded(base64: string) {
     this.photo.set(base64);
     console.log('Photo processed successfully');
+  }
+
+  addToOrder(courseId: number) {
+
+    if (!courseId) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Course not found',
+        text: 'This game is currently unavailable',
+        confirmButtonColor: 'var(--accent)'
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: 'Adding to cart...',
+      html: '<div class="swal-spinner"></div><p>Please wait...</p>',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
+
+    try {
+      this.orderService.addToCart(courseId, 'course');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Added to cart!',
+        text: `Course has been added to your cart`,
+        confirmButtonColor: 'var(--accent)'
+      });
+
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Could not add the game to the cart',
+        confirmButtonColor: 'var(--accent)'
+      });
+    }
   }
 }

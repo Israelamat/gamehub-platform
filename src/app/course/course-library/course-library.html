@@ -89,8 +89,8 @@
             <div class="master-date">
               Enrolled since {{ course.createdAt | date:'MMM yyyy' }}
             </div>
-            <button class="btn-enroll">
-              <span>ENTER MODULE</span>
+            <button class="btn-enroll" (click)="addToOrder(course.id)">
+              <span>ADD TO CART</span>
               <i class="bi bi-arrow-right"></i>
             </button>
           </div>

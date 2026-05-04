@@ -31,7 +31,7 @@ export class CourseService {
   }
 
   getCoursesByIds(ids: number[]): Observable<Course[]> {
-    return this.http.post<Course[]>('/courses/by-ids',
+    return this.http.post<Course[]>('/course/by-ids',
       { ids }
     );
   }
