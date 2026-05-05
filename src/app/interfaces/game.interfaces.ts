@@ -11,3 +11,11 @@ export interface SteamGame {
   developer: string;
   screenshot: string;
 }
+
+export interface Review {
+  id: number;
+  rating: number;
+  comment?: string;
+  game_id: number;
+  user_id?: number;
+}

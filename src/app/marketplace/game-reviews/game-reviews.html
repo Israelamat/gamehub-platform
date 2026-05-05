@@ -1,0 +1,37 @@
+<div class="reviews-section">
+  <h3>Comments</h3>
+
+  <form class="review-form" (ngSubmit)="submitReview()">
+    <div class="form-row">
+      <label for="rating">Rating</label>
+      <select id="rating" [(ngModel)]="rating" name="rating">
+        <option [ngValue]="5">5</option>
+        <option [ngValue]="4">4</option>
+        <option [ngValue]="3">3</option>
+        <option [ngValue]="2">2</option>
+        <option [ngValue]="1">1</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="comment">Comment</label>
+      <textarea id="comment" [(ngModel)]="comment" name="comment" rows="4"
+        placeholder="Write your review..."></textarea>
+    </div>
+
+    <button type="submit">Send Comment</button>
+  </form>
+
+  <div class="reviews-list">
+    @for (review of reviews(); track review.id) {
+    <div class="review-item">
+      <div class="review-top">
+        <strong>{{ review.user_id || 'Usuario' }}</strong>
+        <span>{{ review.rating }}/5</span>
+      </div>
+
+      <p>{{ review.comment }}</p>
+    </div>
+    }
+  </div>
+</div>

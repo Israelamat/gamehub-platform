@@ -6,11 +6,12 @@ import { SteamGame } from '../../interfaces/game.interfaces';
 import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
 import { OrderService } from '../../services/order.service';
 import Swal from 'sweetalert2';
+import { GameReviews } from '../game-reviews/game-reviews';
 
 @Component({
   selector: 'app-game-detail',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective, LoadSpinnerComponent],
+  imports: [CommonModule, ScrollRevealDirective, LoadSpinnerComponent, GameReviews],
   templateUrl: './game-detail.html',
   styleUrl: './game-detail.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

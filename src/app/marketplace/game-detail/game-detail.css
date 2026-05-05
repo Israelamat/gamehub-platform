@@ -227,6 +227,11 @@
   margin-bottom: 8px;
 }
 
+app-game-reviews {
+  display: block;
+  width: 100%;
+}
+
 @media (max-width: 1000px) {
   .game-detail-grid {
     grid-template-columns: 1fr;
