@@ -72,7 +72,9 @@
           </button>
         </div>
       </div>
-      <app-game-reviews></app-game-reviews>
+      @if (game()?.id) {
+      <app-game-reviews [appId]="game()!.id"></app-game-reviews>
+      }
     </aside>
   </main>
   } @else {

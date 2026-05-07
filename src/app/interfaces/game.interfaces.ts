@@ -15,7 +15,24 @@ export interface SteamGame {
 export interface Review {
   id: number;
   rating: number;
-  comment?: string;
+  comment: string;
+
+  user: ReviewUser;
+  game: ReviewGame;
+}
+
+export interface ReviewUser {
+  id: number;
+  email: string;
+}
+
+export interface ReviewGame {
+  id: number;
+  appId: number;
+}
+export interface CreateReview {
+  rating: number;
+  comment: string;
   game_id: number;
   user_id?: number;
 }
