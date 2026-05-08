@@ -1,82 +1,57 @@
 <div class="reviews-section">
-
   <h3>Comments</h3>
-
   <div class="reviews-list">
-
     @if (reviews().length === 0) {
     <p class="empty-reviews">
       No comments yet. Be the first one.
     </p>
     }
-
     @for (review of reviews(); track review.id) {
-
     <div class="review-item">
-
       <div class="review-top">
         <strong>
           {{ review.user.email || 'Player' }}
         </strong>
-
         <span class="rating">
           ⭐ {{ review.rating }}/5
         </span>
       </div>
-
       <p class="review-comment">
         {{ review.comment }}
       </p>
-
     </div>
-
     }
-
   </div>
 
   @if (currentUser()) {
-
   <div class="current-user-box">
     Logged as:
     <span>{{ currentUser()?.email }}</span>
   </div>
-
   <form class="review-form" (ngSubmit)="submitReview()">
-
     <div class="form-row">
-      <label for="rating">Rating</label>
-
-      <select id="rating" [ngModel]="rating()" (ngModelChange)="rating.set($event)" name="rating">
-
-        <option [ngValue]="5">5</option>
-        <option [ngValue]="4">4</option>
-        <option [ngValue]="3">3</option>
-        <option [ngValue]="2">2</option>
-        <option [ngValue]="1">1</option>
-
-      </select>
+      <label>Rating</label>
+      <div class="stars-rating">
+        @for (star of [1,2,3,4,5]; track star) {
+        <button type="button" class="star-btn" [class.active]="star <= rating()" (click)="rating.set(star)">
+          ★
+        </button>
+        }
+      </div>
     </div>
-
     <div class="form-row">
       <label for="comment">Comment</label>
-
       <textarea [ngModel]="comment()" (ngModelChange)="comment.set($event)" name="comment"
         placeholder="Write your review...">
         </textarea>
     </div>
-
     <button type="submit">
       Send Comment
     </button>
-
   </form>
-
   } @else {
-
   <p class="login-hint">
     Login to write a review.
   </p>
-
   }
-
 </div>

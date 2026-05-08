@@ -19,6 +19,7 @@ export class GameReviews {
 
   appId = input.required<number>();
   currentUser = this.authService.currentUser;
+  hoveredStar = signal(0);
 
   reviews = signal<Review[]>([]);
   rating = signal(5);
