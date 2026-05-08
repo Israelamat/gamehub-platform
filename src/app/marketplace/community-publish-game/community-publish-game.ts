@@ -25,13 +25,12 @@ export class CommunityPublishGame {
 
   onSubmit() {
     if (this.publishForm.valid) {
-      console.log('Juego a publicar:', this.publishForm.value);
 
       Swal.fire({
-        title: '¡Publicado!',
-        text: 'Tu juego ya está disponible en la Community Library',
+        title: 'Published!',
+        text: 'Your game has been published',
         icon: 'success',
-        confirmButtonText: 'Genial'
+        confirmButtonText: 'Success'
       }).then(() => {
         this.router.navigate(['/games/community']);
       });
