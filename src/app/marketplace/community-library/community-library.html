@@ -1,0 +1,58 @@
+<div class="library-container">
+  <header class="library-header">
+    <div class="header-content">
+      <h1>Community <span class="text-gradient">Library</span></h1>
+      <p>Explore our collection of community games</p>
+    </div>
+    <button class="btn-publish" routerLink="/community/publish">
+      <i class="fas fa-plus"></i> Publish My Game
+    </button>
+  </header>
+
+  <div class="search-bar-container">
+    <div class="search-input">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search for community games..." (input)="onSearch($event)">
+    </div>
+  </div>
+
+  <div class="games-grid">
+    @for (game of filteredGames(); track game.id) {
+    <article class="game-card">
+      <div class="card-image">
+        <img [src]="game.imageUrl" [alt]="game.title">
+        <span class="badge">Original</span>
+        <div class="hover-overlay">
+          <button class="btn-details" [routerLink]="[ game.id]">
+            View Details
+          </button>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <h3 class="game-title">{{ game.title }}</h3>
+        <p class="game-author">by <span>{{ game.author }}</span></p>
+
+        <div class="card-footer">
+          <div class="stars">
+            @for (star of [1,2,3,4,5]; track $index) {
+            <i class="fas fa-star" [class.active]="star <= game.rating"></i>
+            }
+          </div>
+          <span class="price">
+            @if (game.price > 0) {
+            {{ game.price | currency:'EUR' }}
+            } @else {
+            FREE
+            }
+          </span>
+        </div>
+      </div>
+    </article>
+    } @empty {
+    <div class="empty-state">
+      <p>No games found matching your search.</p>
+    </div>
+    }
+  </div>
+</div>

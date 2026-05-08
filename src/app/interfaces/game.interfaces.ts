@@ -12,6 +12,15 @@ export interface SteamGame {
   screenshot: string;
 }
 
+export interface CommunityGame {
+  id: number;
+  title: string;
+  author: string;
+  imageUrl: string;
+  rating: number;
+  price: number;
+}
+
 export interface Review {
   id: number;
   rating: number;

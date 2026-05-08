@@ -1,0 +1,67 @@
+@if (game()) {
+<div class="details-wrapper">
+  <div class="hero-banner" [style.backgroundImage]="'url(' + game()?.imageUrl + ')'">
+    <div class="overlay"></div>
+  </div>
+  <div class="details-container">
+    <div class="main-content">
+      <header class="game-header">
+        <nav class="breadcrumb">
+          <a routerLink="/games/community">Community</a> / <span>Details</span>
+        </nav>
+        <h1 class="text-gradient">{{ game()?.title }}</h1>
+        <p class="author">Developed by <span>{{ game()?.author }}</span></p>
+      </header>
+
+      <section class="game-media">
+        <img [src]="game()?.imageUrl" [alt]="game()?.title" class="main-image">
+      </section>
+
+      <section class="game-info">
+        <h2>About this game</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+      </section>
+    </div>
+
+    <aside class="sidebar">
+      <div class="buy-card">
+        <div class="price-tag">
+          @if (game()!.price > 0) {
+          {{ game()!.price }}
+          } @else {
+          FREE TO PLAY
+          }
+        </div>
+        <button class="btn-buy">
+          <i class="fas fa-shopping-cart"></i> Add to Cart
+        </button>
+        <div class="game-stats">
+          <div class="stat-item">
+            <span class="label">Rating:</span>
+            <div class="stars">
+              @for (s of [1,2,3,4,5]; track $index) {
+              <i class="fas fa-star" [class.active]="s <= game()!.rating"></i>
+              }
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="label">Platform:</span>
+            <span>Windows, WebGL</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-back" routerLink="/games/community">
+        <i class="fas fa-arrow-left"></i> Back to Library
+      </button>
+    </aside>
+  </div>
+</div>
+} @else {
+<div class="error-container">
+  <h2>Oops! Game not found</h2>
+  <p>The game you are looking for doesn't exist in our community database.</p>
+  <button class="btn-publish" routerLink="/games/community">Return to Library</button>
+</div>
+}

@@ -1,0 +1,45 @@
+<div class="publish-wrapper">
+  <div class="publish-container">
+    <header class="form-header">
+      <h1>Publish your <span class="text-gradient">Creation</span></h1>
+      <p>Share your game with the world</p>
+    </header>
+
+    <form [formGroup]="publishForm" (ngSubmit)="onSubmit()" class="publish-form">
+
+      <div class="form-group">
+        <label>Game Title</label>
+        <input type="text" formControlName="title" placeholder="Ej: Super Neon Quest"
+          [class.error]="publishForm.get('title')?.touched && publishForm.get('title')?.invalid">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Developer Name</label>
+          <input type="text" formControlName="author" placeholder="your name">
+        </div>
+        <div class="form-group">
+          <label>Price (€)</label>
+          <input type="number" formControlName="price" placeholder="0">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Cover Image URL</label>
+        <input type="text" formControlName="imageUrl" placeholder="https://.jpg">
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea formControlName="description" rows="5" placeholder="Describe your game"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" routerLink="/games/community">Cancel</button>
+        <button type="submit" class="btn-submit" [disabled]="publishForm.invalid">
+          Publish Game
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
