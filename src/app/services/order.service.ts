@@ -72,4 +72,9 @@ export class OrderService {
   getUserOrders(userId: number): Observable<any[]> {
     return this.http.get<OrderData[]>(`/order/user/${userId}`);
   }
+
+  clearCart(): void {
+    this.#orderRequest.set({ game_ids: [], course_ids: [] });
+    localStorage.removeItem(this.STORAGE_KEY);
+  }
 }

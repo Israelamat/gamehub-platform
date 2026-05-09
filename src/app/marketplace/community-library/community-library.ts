@@ -1,8 +1,9 @@
-import { Component, signal, computed, effect } from '@angular/core';
+import { Component, signal, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommunityGame } from '../../interfaces/game.interfaces';
+import { CommunityGameService } from '../../services/community-game.service';
 
 @Component({
   selector: 'app-community-library',
@@ -11,23 +12,26 @@ import { CommunityGame } from '../../interfaces/game.interfaces';
   styleUrl: './community-library.css',
 })
 export class CommunityLibrary {
-  private games = signal<CommunityGame[]>([
-    { id: 1, title: 'Neon Drift', author: 'CyberDev', imageUrl: '', rating: 5, price: 0 },
-    { id: 2, title: 'Void Runner', author: 'SpaceWalker', imageUrl: '', rating: 4, price: 15.99 },
-    { id: 3, title: 'Pixel Quest', author: 'RetroMaker', imageUrl: '', rating: 3, price: 5.50 }
-  ]);
+  private readonly communityGameService = inject(CommunityGameService);
 
+  private games = computed(() => this.communityGameService.games());
   searchTerm = signal<string>('');
 
   filteredGames = computed(() => {
     const term = this.searchTerm().toLowerCase();
-    if (!term) return this.games();
+    const games = this.games();
 
-    return this.games().filter(game =>
+    if (!term) return games;
+
+    return games.filter(game =>
       game.title.toLowerCase().includes(term) ||
       game.author.toLowerCase().includes(term)
     );
   });
+
+  constructor() {
+    this.communityGameService.loadGames();
+  }
 
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;

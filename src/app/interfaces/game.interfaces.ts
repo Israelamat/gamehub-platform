@@ -21,6 +21,15 @@ export interface CommunityGame {
   price: number;
 }
 
+export interface CommunityGamePayload {
+  title: string;
+  author: string;
+  price: number;
+  rating: number;
+  imageBase64: string;
+  description: string;
+}
+
 export interface Review {
   id: number;
   rating: number;
