@@ -119,7 +119,15 @@ GameHub Team`
     }
   }
 
-  checkout(userId: number) {
+  checkout(userId?: number) {
+
+    if (!userId) {
+      Swal.fire({
+        icon: 'error',
+        title: 'User not authenticated'
+      });
+      return;
+    }
 
     this.isLoading.set(true);
 
@@ -165,12 +173,13 @@ GameHub Team`
       error: (err) => {
         console.error(err);
 
+        this.isLoading.set(false);
+
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'Error processing order'
         });
-
       }
     });
   }

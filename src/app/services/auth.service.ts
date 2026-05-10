@@ -22,6 +22,14 @@ export class AuthService {
     );
   }
 
+  loadCurrentUser(): Observable<User> {
+    return this.http.get<User>('/user/profile').pipe(
+      tap(user => {
+        this.currentUser.set(user);
+      })
+    );
+  }
+
   register(data: { email: string; password: string }) {
     return this.http.post<AuthResponse>('/user', data);
   }
