@@ -28,7 +28,7 @@ export class Order {
   private readonly gameService = inject(GameService);
   private readonly courseService = inject(CourseService);
   private readonly mailService = inject(MailService);
-  currentUser = inject(AuthService).currentUser;
+  currentUser = inject(AuthService).currentUser();
 
   isLoading = signal(true);
   orderItemsData = signal<OrderItems[]>([]);
@@ -41,8 +41,8 @@ export class Order {
   cart = this.orderService.createOrderData;
 
   defaultMessage: ContactRequest = {
-    name: this.currentUser()?.email ?? 'Guest',
-    email: this.currentUser()?.email ?? 'Guest',
+    name: this.currentUser?.email ?? 'Guest',
+    email: this.currentUser?.email ?? 'Guest',
     subject: 'Purchase Confirmation',
     message: `Hello,
 
@@ -57,7 +57,6 @@ GameHub Team`
   };
 
   constructor() {
-    console.log(this.currentUser())
     effect(() => {
       const currentCart = this.orderService.createOrderData();
 

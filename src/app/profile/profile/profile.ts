@@ -47,9 +47,8 @@ export class Profile {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('cart');
-
+    this.user.set(null);
     this.orderService.clearCart();
-
     this.router.navigate(['/login']);
   }
 }
