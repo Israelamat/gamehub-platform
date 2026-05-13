@@ -11,5 +11,5 @@ export interface Course {
   createdBy: CreatedBy;
   duration: number;
   createdAt: string;
-  image: string;
+  imageBase64: string;
 }

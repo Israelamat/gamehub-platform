@@ -62,8 +62,8 @@
       <article class="master-card" reveal anim="fade-up" [delay]="$index * 40">
 
         <div class="master-media">
-          @if (course.image) {
-          <img [src]="'data:image/png;base64,' + course.image" [alt]="course.title">
+          @if (course.imageBase64) {
+          <img [src]="'data:image/png;base64,' + course.imageBase64" [alt]="course.title">
           } @else {
           <div class="image-placeholder"><i class="bi bi-code-slash"></i></div>
           }

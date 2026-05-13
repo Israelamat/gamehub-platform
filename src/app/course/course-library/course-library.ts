@@ -84,4 +84,14 @@ export class CourseLibrary {
       });
     }
   }
+
+  getImageSrc(base64: string | undefined): string {
+    if (!base64) return '';
+
+    if (base64.startsWith('data:image')) {
+      return base64;
+    }
+
+    return `data:image/png;base64,${base64}`;
+  }
 }

@@ -26,11 +26,8 @@
 
       <div class="form-group">
         <label>Cover Image</label>
-
-        <input type="file" appFileBase64 (base64)="onFileChange($event)" />
-
+        <input type="file" encodeBase64 (encoded)="onFileChange($event)" />
         <small>Upload an image from your device</small>
-
         @if (imagePreview()) {
         <img [src]="imagePreview()" class="preview" />
         }

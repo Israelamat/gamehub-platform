@@ -16,7 +16,7 @@ export interface CommunityGame {
   id: number;
   title: string;
   author: string;
-  imageUrl: string;
+  imageBase64: string;
   rating: number;
   price: number;
 }

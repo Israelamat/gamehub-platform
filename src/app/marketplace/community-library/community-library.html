@@ -20,7 +20,7 @@
     @for (game of filteredGames(); track game.id) {
     <article class="game-card">
       <div class="card-image">
-        <img [src]="game.imageUrl" [alt]="game.title">
+        <img [src]="getImageSrc(game.imageBase64)" [alt]="game.title">
         <span class="badge">Original</span>
         <div class="hover-overlay">
           <button class="btn-details" [routerLink]="[ game.id]">

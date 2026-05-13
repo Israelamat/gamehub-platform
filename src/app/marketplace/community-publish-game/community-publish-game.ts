@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { CommunityGameService } from '../../services/community-game.service';
 import { CommunityGamePayload } from '../../interfaces/game.interfaces';
+import { EncodeBase64Directive } from '../../directives/encode-base64';
 
 @Component({
   selector: 'app-community-publish',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, EncodeBase64Directive],
   templateUrl: './community-publish-game.html',
   styleUrl: './community-publish-game.css',
 })
@@ -27,20 +28,8 @@ export class CommunityPublishGame {
     description: [''],
   });
 
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    const file = input.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const base64 = reader.result as string;
-      this.imagePreview.set(base64);
-    };
-
-    reader.readAsDataURL(file);
+  onFileChange(base64: string): void {
+    this.imagePreview.set(base64);
   }
 
   onSubmit(): void {

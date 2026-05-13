@@ -101,7 +101,7 @@ GameHub Team`
         title: course.title,
         description: course.content,
         price: course.price,
-        image: course.image || 'assets/images/default-course.jpg',
+        image: course.imageBase64 || 'assets/images/default-course.jpg',
         type: 'course'
       }));
 
