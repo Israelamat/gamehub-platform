@@ -1,36 +1,49 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommunityGame } from '../../interfaces/game.interfaces';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { CommunityGameService } from '../../services/community-game.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-community-game-details',
-  imports: [],
+  imports: [CommonModule, RouterModule],
   templateUrl: './community-game-details.html',
   styleUrl: './community-game-details.css',
 })
 export class CommunityGameDetails {
-  private route = inject(ActivatedRoute);
+  private readonly route = inject(ActivatedRoute);
+  private readonly communityGameService = inject(CommunityGameService);
 
-  private games = signal<CommunityGame[]>([
-    { id: 1, title: 'Neon Drift', author: 'CyberDev', imageBase64: 'assets/game1.jpg', rating: 5, price: 0 },
-    { id: 2, title: 'Void Runner', author: 'SpaceWalker', imageBase64: 'assets/game2.jpg', rating: 4, price: 15.99 },
-    { id: 3, title: 'Pixel Quest', author: 'RetroMaker', imageBase64: 'assets/game3.jpg', rating: 3, price: 5.50 }
-  ]);
+  private readonly games = computed(() => this.communityGameService.games());
 
-  private idFromRoute = computed(() => this.route.snapshot.paramMap.get('id'));
+  private readonly idFromRoute = toSignal(
+    this.route.paramMap.pipe(
+      map(params => Number(params.get('id')))
+    ),
+    { initialValue: 0 }
+  );
 
   game = computed(() => {
     const id = this.idFromRoute();
-    return this.games().find(g => g.id === Number(id)) || null;
+
+    return this.games().find(game => game.id === id) || null;
   });
+
+  constructor() {
+    this.communityGameService.loadGames();
+  }
 
   getImageSrc(base64: string | undefined): string {
     if (!base64) return '';
 
-    if (base64.startsWith('data:image')) {
-      return base64;
+    const cleaned = base64.replace(/\s/g, '');
+
+    if (cleaned.startsWith('data:image')) {
+      return cleaned;
     }
 
-    return `data:image/png;base64,${base64}`;
+    return `data:image/png;base64,${cleaned}`;
   }
 }

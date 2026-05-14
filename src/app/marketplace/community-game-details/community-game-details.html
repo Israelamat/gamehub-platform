@@ -1,6 +1,6 @@
 @if (game()) {
 <div class="details-wrapper">
-  <div class="hero-banner" [style.backgroundImage]="'url(' + game()?.imageBase64 + ')'">
+  <div class="hero-banner" [style.backgroundImage]="'url(' + getImageSrc(game()?.imageBase64) + ')'">
     <div class="overlay"></div>
   </div>
   <div class="details-container">
