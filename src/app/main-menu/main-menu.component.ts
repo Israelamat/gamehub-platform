@@ -1,5 +1,6 @@
 import { Component, Renderer2, inject, DestroyRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -10,11 +11,12 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainMenuComponent {
-
   private renderer = inject(Renderer2);
   private destroyRef = inject(DestroyRef);
+  private readonly authService = inject(AuthService);
 
   isScrolled = false;
+  currentUser = this.authService.currentUser;
 
   constructor() {
     const cleanup = this.renderer.listen('document', 'click', (event: Event) => {

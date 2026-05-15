@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { LoadSpinnerComponent } from "../../shared/load-spinner/load-spinner";
 import Swal from 'sweetalert2';
 import { OrderService } from '../../services/order.service';
+import { effect } from '@angular/core';
+import { OrderData } from '../../interfaces/order.interface';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-course-library',
@@ -21,6 +24,9 @@ import { OrderService } from '../../services/order.service';
 export class CourseLibrary {
   private courseService = inject(CourseService);
   private readonly orderService = inject(OrderService);
+  private readonly authService = inject(AuthService);
+
+  private purchasedCourseIds = signal<number[]>([]);
 
   private courseData = this.courseService.getCourses().pipe(
     map((data) => ({ data, loading: false })),
@@ -39,6 +45,16 @@ export class CourseLibrary {
   loading = computed(() => this.state().loading);
 
   photo = signal<string>('');
+
+  constructor() {
+    effect(() => {
+      const user = this.authService.currentUser();
+
+      if (user?.id) {
+        this.loadUserOrders(user.id);
+      }
+    });
+  }
 
   onImageEncoded(base64: string) {
     this.photo.set(base64);
@@ -94,4 +110,25 @@ export class CourseLibrary {
 
     return `data:image/png;base64,${base64}`;
   }
+
+  loadUserOrders(userId: number): void {
+
+    this.orderService.getUserOrders(userId).subscribe({
+      next: (orders: OrderData[]) => {
+
+        const courseIds = orders
+          .flatMap(order => order.courses ?? [])
+          .map(course => course.id);
+
+        this.purchasedCourseIds.set(courseIds);
+      },
+      error: (err) => {
+        console.error(err);
+        this.purchasedCourseIds.set([]);
+      }
+    });
+  }
+
+  isPurchased = (id: number) =>
+    this.purchasedCourseIds().includes(id);
 }

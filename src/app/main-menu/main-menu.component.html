@@ -13,6 +13,7 @@
           <ul>
             <li><a routerLink="/games">Store Marketplace</a></li>
             <li><a routerLink="/games/recommendations">Recommendations</a></li>
+            @if (currentUser()) {
 
             <li class="dropdown">
               <a style="cursor: pointer;">
@@ -23,12 +24,13 @@
                 <li><a routerLink="/games/publish">Publish My Game</a></li>
               </ul>
             </li>
+            }
           </ul>
         </li>
 
         <li><a class="nav-link scrollto" routerLink="/courses">Courses</a></li>
+        @if (currentUser()) {
         <li><a class="nav-link scrollto" routerLink="/order">Order</a></li>
-
         <li class="dropdown">
           <a style="cursor: pointer;">
             <span>Account</span> <i class="bi bi-chevron-down"></i>
@@ -39,7 +41,7 @@
             <li><a routerLink="/contact">Support</a></li>
           </ul>
         </li>
-
+        }
         <li><a class="getstarted scrollto" routerLink="/auth">Get Started</a></li>
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>

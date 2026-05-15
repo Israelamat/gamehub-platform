@@ -137,6 +137,13 @@
   box-shadow: 0 0 20px var(--accent);
 }
 
+.btn-enroll:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(0.6);
+}
+
 .image-preview-box {
   margin-top: 20px;
   padding-top: 20px;

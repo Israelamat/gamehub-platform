@@ -13,6 +13,8 @@ export class OrderService {
   private readonly http = inject(HttpClient);
   private readonly STORAGE_KEY = environment.STORAGE_KEY;
 
+  #purchasedCourseIds = signal<number[]>([]);
+
   #orders = signal<OrderData[]>([]);
   #orderRequest = signal<OrderRequest>({
     game_ids: [],
@@ -69,7 +71,7 @@ export class OrderService {
     return this.http.get<OrderData>(`/order/${id}`);
   }
 
-  getUserOrders(userId: number): Observable<any[]> {
+  getUserOrders(userId: number): Observable<OrderData[]> {
     return this.http.get<OrderData[]>(`/order/user/${userId}`);
   }
 
@@ -77,4 +79,11 @@ export class OrderService {
     this.#orderRequest.set({ game_ids: [], course_ids: [] });
     localStorage.removeItem(this.STORAGE_KEY);
   }
+
+  getPurchasedCourseIds = this.#purchasedCourseIds.asReadonly();
+  isCoursePurchased(id: number): boolean {
+    return this.#purchasedCourseIds().includes(id);
+  }
+
+
 }
