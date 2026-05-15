@@ -7,23 +7,13 @@
       </div>
 
       <div class="filter-group search-group">
-        <input type="text" placeholder="Search courses...">
-        <i class="bi bi-search"></i>
-      </div>
-
-      <div class="filter-group">
-        <label>Specialization</label>
-        <select class="custom-select">
-          <option value="All">All Topics</option>
-          <option value="Backend">Backend Development</option>
-          <option value="Frontend">Frontend Architecture</option>
-          <option value="DevOps">Cloud & DevOps</option>
-        </select>
+        <input type="text" placeholder="Search courses..." (input)="search.set($event.target.value)"> <i
+          class="bi bi-search"></i>
       </div>
 
       <div class="filter-group">
         <label>Duration</label>
-        <select class="custom-select">
+        <select class="custom-select" (change)="duration.set($any($event.target).value)">
           <option value="all">Any duration</option>
           <option value="1-5">1 - 5 hours</option>
           <option value="5-20">5 - 20 hours</option>
@@ -34,12 +24,13 @@
       </div>
 
       <div class="filter-group">
-        <label>Price</label>
-        <select class="custom-select">
-          <option>All</option>
-          <option>Free</option>
-          <option>Paid</option>
-        </select>
+        <div class="label-row">
+          <label>Max Price</label>
+          <span class="price-value">{{ maxPrice() | currency:'EUR' }}</span>
+        </div>
+
+        <input type="range" class="gradient-range" min="100" max="1000" step="10" [ngModel]="maxPrice()"
+          (ngModelChange)="maxPrice.set($event)" />
       </div>
 
     </div>
@@ -58,7 +49,7 @@
     <load-spinner></load-spinner>
     } @else {
     <div class="course-master-grid">
-      @for (course of courses(); track course.id) {
+      @for (course of filteredCourses(); track course.id) {
       <article class="master-card" reveal anim="fade-up" [delay]="$index * 40">
 
         <div class="master-media">
@@ -89,6 +80,7 @@
             <div class="master-date">
               Enrolled since {{ course.createdAt | date:'MMM yyyy' }}
             </div>
+            @if(currentUser()){
             <button class="btn-enroll" [disabled]="isPurchased(course.id)"
               (click)="!isPurchased(course.id) && addToOrder(course.id)">
 
@@ -100,6 +92,7 @@
 
               <i class="bi bi-arrow-right"></i>
             </button>
+            }
           </div>
         </div>
       </article>

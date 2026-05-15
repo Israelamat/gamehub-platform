@@ -225,6 +225,12 @@
   margin-bottom: 5px;
 }
 
+.gradient-range {
+  accent-color: #5846f9;
+  width: 100%;
+  cursor: pointer;
+}
+
 .sidebar-header h4 {
   font-size: 0.9rem;
   opacity: 0.8;

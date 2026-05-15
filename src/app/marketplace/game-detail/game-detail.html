@@ -66,10 +66,12 @@
               {{ game()?.price === 0 ? 'FREE' : (game()?.price | currency) }}
             </span>
           </div>
+          @if(currentUser()){
           <button class="btn-buy" [disabled]="game()?.stock === 0" (click)="addToOrder()">
             <i class="bi bi-cart-plus"></i>
             {{ game()?.stock === 0 ? 'OUT OF STOCK' : 'ADD TO CART' }}
           </button>
+          }
         </div>
       </div>
       @if (game()?.id) {

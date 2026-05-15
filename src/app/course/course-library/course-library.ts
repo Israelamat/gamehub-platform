@@ -25,7 +25,7 @@ export class CourseLibrary {
   private courseService = inject(CourseService);
   private readonly orderService = inject(OrderService);
   private readonly authService = inject(AuthService);
-
+  currentUser = this.authService.currentUser;
   private purchasedCourseIds = signal<number[]>([]);
 
   private courseData = this.courseService.getCourses().pipe(
@@ -41,18 +41,32 @@ export class CourseLibrary {
     initialValue: { data: [] as Course[], loading: true },
   });
 
-  courses = computed(() => this.state().data);
+  courses = signal<Course[]>([]);
   loading = computed(() => this.state().loading);
-
   photo = signal<string>('');
+
+  search = signal('');
+  maxPrice = signal(1000);
+  duration = signal('all');
+  priceFilter = signal('All');
+
+  isLoading = signal(true);
 
   constructor() {
     effect(() => {
-      const user = this.authService.currentUser();
+      const user = this.currentUser();
 
       if (user?.id) {
         this.loadUserOrders(user.id);
       }
+    });
+
+    this.courseService.getCourses().subscribe((data) => {
+      this.courses.set(data);
+
+      requestAnimationFrame(() => {
+        this.isLoading.set(false);
+      });
     });
   }
 
@@ -131,4 +145,35 @@ export class CourseLibrary {
 
   isPurchased = (id: number) =>
     this.purchasedCourseIds().includes(id);
+
+  filteredCourses = computed(() => {
+    if (this.isLoading()) return [];
+
+    const searchTerm = this.search().toLowerCase().trim();
+    const maxPrice = this.maxPrice();
+    const durationFilter = this.duration();
+
+    return this.courses().filter((course) => {
+      const matchesSearch =
+        course.title.toLowerCase().includes(searchTerm) ||
+        course.content.toLowerCase().includes(searchTerm);
+
+      const matchesPrice = course.price <= maxPrice;
+
+      const hours = course.duration / 60;
+
+      const matchesDuration = (() => {
+        switch (durationFilter) {
+          case '1-5': return hours >= 1 && hours <= 5;
+          case '5-20': return hours > 5 && hours <= 20;
+          case '20-50': return hours > 20 && hours <= 50;
+          case '50-100': return hours > 50 && hours <= 100;
+          case '100-200': return hours > 100 && hours <= 200;
+          default: return true;
+        }
+      })();
+
+      return matchesSearch && matchesPrice && matchesDuration;
+    });
+  });
 }

@@ -7,6 +7,7 @@ import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
 import { OrderService } from '../../services/order.service';
 import Swal from 'sweetalert2';
 import { GameReviews } from '../game-reviews/game-reviews';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-game-detail',
@@ -20,6 +21,9 @@ export class GameDetail {
   private gameService = inject(GameService);
   private readonly orderService = inject(OrderService);
   private location = inject(Location);
+  private readonly authService = inject(AuthService);
+  currentUser = this.authService.currentUser;
+
 
   id = input<string>('');
 
