@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, linkedSignal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
@@ -22,6 +22,9 @@ export class SteamLibrary {
   maxPrice = signal(100);
   isLoading = signal(true);
 
+  scrollTrigger = viewChild<any>('scrollTrigger');
+  private observer!: IntersectionObserver;
+
   games = linkedSignal(() => this.gameService.games());
 
   constructor() {
@@ -34,6 +37,27 @@ export class SteamLibrary {
       if (currentGames && currentGames.length > 0) {
         requestAnimationFrame(() => {
           this.isLoading.set(false);
+        });
+      }
+    });
+
+    effect((onCleanup) => {
+      const trigger = this.scrollTrigger();
+
+      if (trigger) {
+        this.observer = new IntersectionObserver(entries => {
+          const entry = entries[0];
+          if (entry.isIntersecting) {
+            this.gameService.loadGames();
+          }
+        }, {
+          rootMargin: '1000px'
+        });
+
+        this.observer.observe(trigger.nativeElement);
+
+        onCleanup(() => {
+          this.observer.disconnect();
         });
       }
     });
@@ -61,24 +85,4 @@ export class SteamLibrary {
   getTags(tags: string) {
     return this.gameService.getTagsArray(tags);
   }
-
-  // --- CONFIGURACIÓN PARA PAGINACIÓN FUTURA ---
-  /* 
-    Cuando implementes la paginación, el isLoading no debe ser un signal manual.
-    Debería reaccionar automáticamente al estado de la petición.
-    
-    Ejemplo:
-    private readonly gamesResource = toSignal(
-      toObservable(this.query).pipe( // 'query' sería un computed con (page, search, etc)
-        tap(() => this.isLoading.set(true)), // Empezamos a cargar
-        switchMap(q => this.gameService.getGames(q)), // Llamada real a la API
-        tap(() => this.isLoading.set(false)), // Terminamos de cargar
-        catchError(() => {
-          this.isLoading.set(false);
-          return of([]);
-        })
-      ),
-      { initialValue: [] }
-    );
-  */
 }

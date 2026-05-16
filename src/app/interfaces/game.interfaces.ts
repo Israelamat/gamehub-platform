@@ -12,6 +12,12 @@ export interface SteamGame {
   screenshot: string;
 }
 
+export interface PaginatedGamesResponse {
+  data: SteamGame[];
+  page: number;
+  hasMore: boolean;
+}
+
 export interface CommunityGame {
   id: number;
   title: string;

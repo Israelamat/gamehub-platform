@@ -1,6 +1,6 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SteamGame } from '../interfaces/game.interfaces';
+import { PaginatedGamesResponse, SteamGame } from '../interfaces/game.interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,15 +9,34 @@ import { Observable } from 'rxjs';
 
 export class GameService {
   private readonly http = inject(HttpClient);
-
   #games = signal<SteamGame[]>([]);
 
+  page = signal(1);
+  loading = signal(false);
+  hasMore = signal(true);
   public games = computed(() => this.#games());
 
   loadGames(): void {
-    this.http.get<SteamGame[]>('/games').subscribe({
-      next: (data) => this.#games.set(data),
-      error: (err) => console.error('Error loading games:', err)
+    if (this.loading() || !this.hasMore()) {
+      return;
+    }
+    this.loading.set(true);
+    this.http.get<PaginatedGamesResponse>(
+      `/games?page=${this.page()}&limit=20`
+    ).subscribe({
+      next: (response) => {
+        this.#games.update(prev => [
+          ...prev,
+          ...response.data
+        ]);
+        this.hasMore.set(response.hasMore);
+        this.page.update(p => p + 1);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading games:', err);
+        this.loading.set(false);
+      }
     });
   }
 
@@ -46,6 +65,8 @@ export class GameService {
 
   resetGames() {
     this.#games.set([]);
+    this.page.set(1);
+    this.hasMore.set(true);
   }
 
 }
