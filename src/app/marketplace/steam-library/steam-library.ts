@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, linkedSignal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, linkedSignal, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { GameService } from '../../services/game.service';
-import { SteamGame } from '../../interfaces/game.interfaces';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-steam-library',
@@ -16,25 +15,27 @@ import { RouterLink } from '@angular/router';
 })
 export class SteamLibrary {
   private gameService = inject(GameService);
-
-  search = signal('');
-  selectedCategory = signal('All Genres');
-  maxPrice = signal(100);
   isLoading = signal(true);
-
   scrollTrigger = viewChild<any>('scrollTrigger');
   private observer!: IntersectionObserver;
 
+  search = signal('');
+  selectedCategory = signal('All Genres');
+  tag = signal('All');
+  maxPrice = signal(100);
+
+  sort = signal<
+    'price_asc' |
+    'price_desc' |
+    'createdAt_desc'
+  >('createdAt_desc');
+
   games = linkedSignal(() => this.gameService.games());
-
   constructor() {
-    //clean old games data for avoid page flicker
-    this.gameService.resetGames();
-    this.gameService.loadGames();
-
+    this.loadFilteredGames();
     effect(() => {
       const currentGames = this.games();
-      if (currentGames && currentGames.length > 0) {
+      if (currentGames.length > 0) {
         requestAnimationFrame(() => {
           this.isLoading.set(false);
         });
@@ -43,46 +44,41 @@ export class SteamLibrary {
 
     effect((onCleanup) => {
       const trigger = this.scrollTrigger();
-
-      if (trigger) {
-        this.observer = new IntersectionObserver(entries => {
-          const entry = entries[0];
-          if (entry.isIntersecting) {
-            this.gameService.loadGames();
-          }
-        }, {
-          rootMargin: '1000px'
-        });
-
-        this.observer.observe(trigger.nativeElement);
-
-        onCleanup(() => {
-          this.observer.disconnect();
-        });
-      }
+      if (!trigger) return;
+      this.observer = new IntersectionObserver(entries => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          this.gameService.loadGames();
+        }
+      }, {
+        rootMargin: '1000px'
+      });
+      this.observer.observe(trigger.nativeElement);
+      onCleanup(() => {
+        this.observer.disconnect();
+      });
     });
   }
 
-  filteredGames = computed(() => {
-    if (this.isLoading()) return [];
-    const searchTerm = this.search().toLowerCase().trim();
-    const category = this.selectedCategory();
-    const priceLimit = this.maxPrice();
+  applyFilters(): void {
+    this.isLoading.set(true);
 
-    return this.games().filter((game: SteamGame) => {
-      const matchesSearch = game.title.toLowerCase().includes(searchTerm) ||
-        game.developer.toLowerCase().includes(searchTerm);
+    this.gameService.resetGames();
 
-      const matchesCategory = category === 'All Genres' ||
-        game.tags.includes(category);
+    this.gameService.search.set(this.search());
+    this.gameService.tag.set(this.tag());
+    this.gameService.maxPrice.set(this.maxPrice());
+    this.gameService.sort.set(this.sort());
 
-      const matchesPrice = game.price <= priceLimit;
+    this.gameService.loadGames();
+  }
 
-      return matchesSearch && matchesCategory && matchesPrice;
-    });
-  });
-
-  getTags(tags: string) {
+  getTags(tags: string): string[] {
     return this.gameService.getTagsArray(tags);
+  }
+
+  private loadFilteredGames(): void {
+    this.gameService.resetGames();
+    this.gameService.loadGames();
   }
 }

@@ -1,8 +1,14 @@
 <div class="store-container">
-
   <aside class="filters-sidebar" reveal anim="fade-right">
+
     <div class="sidebar-header">
       <h4><i class="bi bi-sliders2-vertical"></i> Filters</h4>
+    </div>
+
+    <div class="filter-group">
+      <label>Search</label>
+      <input type="text" class="custom-input" placeholder="Search games..." [ngModel]="search()"
+        (ngModelChange)="search.set($event)" />
     </div>
 
     <div class="filter-group">
@@ -12,33 +18,55 @@
         <option value="Adventure">Adventure</option>
         <option value="Indie">Indie</option>
         <option value="RPG">RPG</option>
+        <option value="Strategy">Strategy</option>
+        <option value="Simulation">Simulation</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Tags</label>
+      <select class="custom-select" [ngModel]="tag()" (ngModelChange)="tag.set($event)">
+        <option value="All">All Tags</option>
+        <option value="Singleplayer">Singleplayer</option>
+        <option value="Multiplayer">Multiplayer</option>
+        <option value="Co-op">Co-op</option>
+        <option value="Open World">Open World</option>
+        <option value="Survival">Survival</option>
       </select>
     </div>
 
     <div class="filter-group">
       <div class="label-row">
         <label>Max Price</label>
-        <span class="price-value">{{ maxPrice() | currency }}</span>
+        <span class="price-value">€0 - €{{ maxPrice() }}</span>
       </div>
+
       <input type="range" class="gradient-range" min="0" max="100" [ngModel]="maxPrice()"
-        (ngModelChange)="maxPrice.set($event)">
+        (ngModelChange)="maxPrice.set($event)" />
     </div>
 
-    <button class="btn-filter">Apply Filters</button>
+    <div class="filter-group">
+      <label>Sort by</label>
+      <select class="custom-select" [ngModel]="sort()" (ngModelChange)="sort.set($event)">
+        <option value="createdAt_desc">Newest</option>
+        <option value="price_asc">Price: Low → High</option>
+        <option value="price_desc">Price: High → Low</option>
+      </select>
+    </div>
+
+    <!-- 🔥 APPLY -->
+    <button class="btn-filter" (click)="applyFilters()">
+      Apply Filters
+    </button>
+
   </aside>
 
   <main class="games-display">
-
-    <div class="search-bar" reveal anim="fade-up">
-      <input type="text" placeholder="Search Steam games..." [ngModel]="search()" (ngModelChange)="search.set($event)">
-      <i class="bi bi-search"></i>
-    </div>
-
     @if (isLoading()) {
     <load-spinner></load-spinner>
     } @else {
     <div class="steam-grid">
-      @for (game of filteredGames(); track game.id) {
+      @for (game of games(); track game.id) {
       <div class="game-card" reveal anim="zoom-in" [routerLink]="[game.id]" [delay]="$index * 30">
 
         <div class="game-media">

@@ -14,25 +14,50 @@ export class GameService {
   page = signal(1);
   loading = signal(false);
   hasMore = signal(true);
+  search = signal('');
+  tag = signal('All');
+  maxPrice = signal(100);
+  sort = signal<'price_asc' | 'price_desc' | 'createdAt_desc'>('createdAt_desc');
+  limit = 20;
   public games = computed(() => this.#games());
 
   loadGames(): void {
     if (this.loading() || !this.hasMore()) {
       return;
     }
+
     this.loading.set(true);
+
+    const params = new URLSearchParams({
+      page: this.page().toString(),
+      limit: this.limit.toString(),
+    });
+
+    if (this.search().trim()) {
+      params.append('search', this.search().trim());
+    }
+    if (this.tag() !== 'All') {
+      params.append('tag', this.tag());
+    }
+    if (this.maxPrice()) params.append('maxPrice', this.maxPrice().toString());
+    if (this.sort()) params.append('sort', this.sort());
+
+    console.log(params.toString())
     this.http.get<PaginatedGamesResponse>(
-      `/games?page=${this.page()}&limit=20`
+      `/games/filtered?${params.toString()}`
     ).subscribe({
       next: (response) => {
+
         this.#games.update(prev => [
           ...prev,
           ...response.data
         ]);
+
         this.hasMore.set(response.hasMore);
         this.page.update(p => p + 1);
         this.loading.set(false);
       },
+
       error: (err) => {
         console.error('Error loading games:', err);
         this.loading.set(false);
@@ -63,10 +88,9 @@ export class GameService {
     return tags ? tags.split(',').map(t => t.trim()) : [];
   }
 
-  resetGames() {
+  resetGames(): void {
     this.#games.set([]);
     this.page.set(1);
     this.hasMore.set(true);
   }
-
 }
