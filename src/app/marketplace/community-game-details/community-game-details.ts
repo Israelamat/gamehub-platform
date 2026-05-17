@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { CommunityGameService } from '../../services/community-game.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
 
 @Component({
   selector: 'app-community-game-details',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, Base64ImagePipe],
   templateUrl: './community-game-details.html',
   styleUrl: './community-game-details.css',
 })
@@ -25,25 +26,13 @@ export class CommunityGameDetails {
     { initialValue: 0 }
   );
 
+  constructor() {
+    this.communityGameService.loadGames();
+  }
+
   game = computed(() => {
     const id = this.idFromRoute();
 
     return this.games().find(game => game.id === id) || null;
   });
-
-  constructor() {
-    this.communityGameService.loadGames();
-  }
-
-  getImageSrc(base64: string | undefined): string {
-    if (!base64) return '';
-
-    const cleaned = base64.replace(/\s/g, '');
-
-    if (cleaned.startsWith('data:image')) {
-      return cleaned;
-    }
-
-    return `data:image/png;base64,${cleaned}`;
-  }
 }

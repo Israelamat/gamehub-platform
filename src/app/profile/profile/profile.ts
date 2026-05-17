@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { OrderService } from './../../services/order.service';
 import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
+import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule],
+  imports: [CommonModule, Base64ImagePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -43,16 +44,6 @@ export class Profile {
   games = computed(() =>
     this.orders().flatMap(order => order.games ?? [])
   );
-
-  getImageSrc(base64: string | undefined): string {
-    if (!base64) return '';
-
-    if (base64.startsWith('data:image')) {
-      return base64;
-    }
-
-    return `data:image/png;base64,${base64}`;
-  }
 
   logout(): void {
     localStorage.removeItem('token');

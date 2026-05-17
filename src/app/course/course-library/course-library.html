@@ -54,7 +54,7 @@
 
         <div class="master-media">
           @if (course.imageBase64) {
-          <img [src]="'data:image/png;base64,' + course.imageBase64" [alt]="course.title">
+          <img [src]="course.imageBase64 | base64Image" [alt]="course.title">
           } @else {
           <div class="image-placeholder"><i class="bi bi-code-slash"></i></div>
           }
@@ -70,7 +70,7 @@
             <span class="instructor-tag">
               <i class="bi bi-patch-check-fill"></i> {{ course.createdBy.email.split('@')[0] }}
             </span>
-            <span class="duration-tag"><i class="bi bi-clock"></i> {{ course.duration }}m</span>
+            <span class="duration-tag"><i class="bi bi-clock"></i> {{ course.duration | duration}}</span>
           </div>
 
           <h3 class="master-title">{{ course.title }}</h3>

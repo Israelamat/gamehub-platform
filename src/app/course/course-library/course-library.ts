@@ -13,11 +13,13 @@ import { OrderService } from '../../services/order.service';
 import { effect } from '@angular/core';
 import { OrderData } from '../../interfaces/order.interface';
 import { AuthService } from '../../services/auth.service';
+import { DurationPipe } from "../../shared/pipes/duration-pipe";
+import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
 
 @Component({
   selector: 'app-course-library',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective, FormsModule, LoadSpinnerComponent],
+  imports: [CommonModule, ScrollRevealDirective, FormsModule, LoadSpinnerComponent, DurationPipe, Base64ImagePipe],
   templateUrl: './course-library.html',
   styleUrl: './course-library.css',
 })
@@ -113,16 +115,6 @@ export class CourseLibrary {
         confirmButtonColor: 'var(--accent)'
       });
     }
-  }
-
-  getImageSrc(base64: string | undefined): string {
-    if (!base64) return '';
-
-    if (base64.startsWith('data:image')) {
-      return base64;
-    }
-
-    return `data:image/png;base64,${base64}`;
   }
 
   loadUserOrders(userId: number): void {

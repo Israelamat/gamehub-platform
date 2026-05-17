@@ -58,7 +58,7 @@
         <h4>Courses</h4>
         @for (course of order.courses; track course.id) {
         <div class="item-card">
-          <img [src]="getImageSrc(course.imageBase64)" [alt]="course.title" />
+          <img [src]="course.imageBase64 | base64Image" [alt]="course.title" />
           <div>
             <p class="item-title">{{ course.title }}</p>
             <p class="item-price">{{ course.price }} €</p>

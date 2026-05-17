@@ -1,6 +1,6 @@
 @if (game()) {
 <div class="details-wrapper">
-  <div class="hero-banner" [style.backgroundImage]="'url(' + getImageSrc(game()?.imageBase64) + ')'">
+  <div class="hero-banner" [style.backgroundImage]="'url(' + (game()?.imageBase64 | base64Image) + ')'">
     <div class="overlay"></div>
   </div>
   <div class="details-container">
@@ -14,7 +14,7 @@
       </header>
 
       <section class="game-media">
-        <img [src]="getImageSrc(game()?.imageBase64)" [alt]="game()?.title" class="main-image">
+        <img [src]="game()?.imageBase64 | base64Image" [alt]="game()?.title" class="main-image">
       </section>
 
       <section class="game-info">
