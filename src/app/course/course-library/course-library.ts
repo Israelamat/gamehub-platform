@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, startWith, catchError } from 'rxjs/operators';
@@ -22,6 +22,7 @@ import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
   imports: [CommonModule, ScrollRevealDirective, FormsModule, LoadSpinnerComponent, DurationPipe, Base64ImagePipe],
   templateUrl: './course-library.html',
   styleUrl: './course-library.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourseLibrary {
   private courseService = inject(CourseService);

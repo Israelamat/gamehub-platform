@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollRevealDirective } from './../../directives/scroll-reveal'; // Mira que la ruta sea correcta
 
@@ -8,6 +8,7 @@ import { ScrollRevealDirective } from './../../directives/scroll-reveal'; // Mir
   imports: [CommonModule, ScrollRevealDirective],
   templateUrl: './partners.component.html',
   styleUrl: './partners.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PartnersComponent {
 }

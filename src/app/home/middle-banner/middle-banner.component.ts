@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 
 @Component({
@@ -6,7 +6,8 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal';
     standalone: true,
     imports: [ScrollRevealDirective],
     templateUrl: './middle-banner.component.html',
-    styleUrl: './middle-banner.component.css'
+    styleUrl: './middle-banner.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiddleBannerComponent {
 

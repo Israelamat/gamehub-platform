@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MailService } from '../../services/mail.service';
 import { ContactRequest } from '../../interfaces/contact.interface';
@@ -10,6 +10,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal';
   imports: [FormsModule, ScrollRevealDirective],
   templateUrl: './contact.html',
   styleUrl: './contact.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Contact {
   private readonly mailService = inject(MailService);

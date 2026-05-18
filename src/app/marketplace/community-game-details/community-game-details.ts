@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommunityGame } from '../../interfaces/game.interfaces';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,7 @@ import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
   imports: [CommonModule, RouterModule, Base64ImagePipe],
   templateUrl: './community-game-details.html',
   styleUrl: './community-game-details.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommunityGameDetails {
   private readonly route = inject(ActivatedRoute);

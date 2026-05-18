@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 
@@ -7,7 +7,8 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal';
   standalone: true,
   imports: [CommonModule, ScrollRevealDirective],
   templateUrl: './games.component.html',
-  styleUrls: ['./games.component.css']
+  styleUrls: ['./games.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamesComponent {
   selectedFilter: string = '*';

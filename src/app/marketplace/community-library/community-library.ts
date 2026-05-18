@@ -1,4 +1,4 @@
-import { Component, signal, computed, effect, inject } from '@angular/core';
+import { Component, signal, computed, effect, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
   imports: [CommonModule, FormsModule, RouterModule, Base64ImagePipe],
   templateUrl: './community-library.html',
   styleUrl: './community-library.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommunityLibrary {
   private readonly communityGameService = inject(CommunityGameService);

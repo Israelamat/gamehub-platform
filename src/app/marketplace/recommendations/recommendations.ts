@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
@@ -9,7 +9,8 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal';
   standalone: true,
   imports: [CommonModule, ScrollRevealDirective, FormsModule],
   templateUrl: './recommendations.html',
-  styleUrl: './recommendations.css'
+  styleUrl: './recommendations.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Recommendations {
   private gameService = inject(GameService);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ScrollRevealDirective } from '../directives/scroll-reveal';
 
 @Component({
@@ -6,7 +6,8 @@ import { ScrollRevealDirective } from '../directives/scroll-reveal';
   standalone: true,
   imports: [ScrollRevealDirective],
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.css'
+  styleUrl: './footer.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
   email: string = "gamehub.info@gmail.com";

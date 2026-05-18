@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component, signal, inject, input, effect } from '@angular/core';
+import { Component, signal, inject, input, effect, ChangeDetectionStrategy } from '@angular/core';
 import { Review, CreateReview } from './../../interfaces/game.interfaces';
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../services/auth.service';
@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
   imports: [CommonModule, FormsModule],
   templateUrl: './game-reviews.html',
   styleUrl: './game-reviews.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameReviews {
 

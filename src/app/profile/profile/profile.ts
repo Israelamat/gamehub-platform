@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderService } from './../../services/order.service';
 import { AuthService } from './../../services/auth.service';
@@ -10,6 +10,7 @@ import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
   imports: [CommonModule, Base64ImagePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Profile {
   private readonly auth = inject(AuthService);

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -12,6 +12,7 @@ import { EncodeBase64Directive } from '../../directives/encode-base64';
   imports: [CommonModule, ReactiveFormsModule, RouterModule, EncodeBase64Directive],
   templateUrl: './community-publish-game.html',
   styleUrl: './community-publish-game.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommunityPublishGame {
   private communityGameService = inject(CommunityGameService);

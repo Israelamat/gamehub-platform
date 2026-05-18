@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, inject, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './count.component.html',
-  styleUrls: ['./count.component.css']
+  styleUrls: ['./count.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountComponent implements AfterViewInit, OnDestroy {
   private el = inject(ElementRef);
