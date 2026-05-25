@@ -15,11 +15,12 @@ import { OrderData } from '../../interfaces/order.interface';
 import { AuthService } from '../../services/auth.service';
 import { DurationPipe } from "../../shared/pipes/duration-pipe";
 import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-course-library',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective, FormsModule, LoadSpinnerComponent, DurationPipe, Base64ImagePipe],
+  imports: [CommonModule, ScrollRevealDirective, FormsModule, LoadSpinnerComponent, DurationPipe, Base64ImagePipe, RouterLink],
   templateUrl: './course-library.html',
   styleUrl: './course-library.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

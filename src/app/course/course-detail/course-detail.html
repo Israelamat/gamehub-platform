@@ -1,1 +1,88 @@
-<p>course-detail works!</p>
+@if (loading()) {
+
+<div class="loading-container">
+  <load-spinner></load-spinner>
+</div>
+
+} @else if (course()) {
+<div class="course-detail-container">
+  <div class="course-hero">
+
+    <div class="course-image-section">
+      @if (course()!.imageBase64) {
+      <img [src]="course()!.imageBase64 | base64Image" [alt]="course()!.title" class="course-image">
+      } @else {
+      <div class="image-placeholder">
+        <i class="bi bi-code-slash"></i>
+      </div>
+      }
+    </div>
+
+    <div class="course-main-info">
+
+      <div class="course-badges">
+        <span class="badge instructor">
+          <i class="bi bi-patch-check-fill"></i>
+          {{ course()!.createdBy.email.split('@')[0] }}
+        </span>
+        <span class="badge duration">
+          <i class="bi bi-clock"></i>
+          {{ course()!.duration | duration }}
+        </span>
+      </div>
+      <h1 class="course-title">
+        {{ course()!.title }}
+      </h1>
+      <p class="course-description">
+        {{ course()!.content }}
+      </p>
+      <div class="course-meta">
+
+        <div class="meta-item">
+          <i class="bi bi-calendar-event"></i>
+          Created {{ course()!.createdAt | date }}
+        </div>
+
+        <div class="meta-item">
+          <i class="bi bi-currency-euro"></i>
+          @if(course()!.price === 0){
+          FREE
+          } @else {
+          {{ course()!.price }}
+          }
+        </div>
+
+      </div>
+      <div class="course-actions">
+        @if(currentUser()){
+        <button class="btn-primary" [disabled]="isPurchased(course()!.id)" (click)="addToOrder(course()!.id)">
+          @if(isPurchased(course()!.id)){
+          <span>ALREADY PURCHASED</span>
+          } @else {
+          <span>ADD TO CART</span>
+          }
+
+          <i class="bi bi-cart-plus"></i>
+        </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <section class="course-content-card">
+    <div class="section-header">
+      <i class="bi bi-journal-text"></i>
+      <h2>Course Overview</h2>
+    </div>
+    <p>
+      {{ course()!.content }}
+    </p>
+  </section>
+
+</div>
+} @else {
+<div class="error-container">
+  <h2>Course not found</h2>
+  <p>The course does not exist or was removed.</p>
+</div>
+}

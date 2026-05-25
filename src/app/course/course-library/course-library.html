@@ -50,7 +50,7 @@
     } @else {
     <div class="course-master-grid">
       @for (course of filteredCourses(); track course.id) {
-      <article class="master-card" reveal anim="fade-up" [delay]="$index * 40">
+      <article class="master-card" reveal anim="fade-up" [delay]="$index * 40" [routerLink]="['/courses', course.id]">
 
         <div class="master-media">
           @if (course.imageBase64) {

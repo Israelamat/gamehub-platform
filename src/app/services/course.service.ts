@@ -9,10 +9,8 @@ import { Observable, tap } from 'rxjs';
 })
 export class CourseService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.apiUrl;
 
   #courses = signal<Course[]>([]);
-
   public courses = computed(() => this.#courses());
 
   loadCourses(): void {
@@ -27,7 +25,7 @@ export class CourseService {
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.http.get<Course>(`$'/course/${id}`);
+    return this.http.get<Course>(`/course/${id}`);
   }
 
   getCoursesByIds(ids: number[]): Observable<Course[]> {
