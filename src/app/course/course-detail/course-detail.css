@@ -33,14 +33,11 @@
 .course-hero {
   position: relative;
   z-index: 2;
-
   max-width: 1200px;
   margin: 0 auto;
-
   display: grid;
   grid-template-columns: 1fr 360px;
   gap: 40px;
-
   padding: 40px 20px;
 }
 
@@ -91,7 +88,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-
   background: var(--bg-card);
   border: 1px solid var(--bg-surface);
 }
@@ -111,22 +107,17 @@
 .course-image {
   width: 100%;
   border-radius: 18px;
-
   border: 1px solid var(--bg-surface);
-
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .image-placeholder {
   height: 320px;
   border-radius: 18px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 4rem;
-
   background: linear-gradient(
     135deg,
     rgba(88, 101, 242, 0.2),
@@ -145,14 +136,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-
   padding: 0.8rem 1rem;
-
   border-radius: 14px;
-
   background: var(--bg-card);
   border: 1px solid var(--bg-surface);
-
   font-size: 0.9rem;
   color: var(--text-muted);
 }
@@ -163,19 +150,13 @@
 
 .btn-primary {
   width: 100%;
-
   padding: 16px;
-
   border-radius: 14px;
   border: none;
-
   cursor: pointer;
-
   font-weight: 800;
   font-size: 1rem;
-
   color: white;
-
   background: linear-gradient(
     45deg,
     var(--accent-2),
@@ -203,10 +184,8 @@
 .buy-card {
   background: var(--bg-card);
   padding: 30px;
-
   border-radius: 20px;
   border: 1px solid var(--bg-surface);
-
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
@@ -226,14 +205,10 @@
 .course-content-card {
   max-width: 1200px;
   margin: 40px auto;
-
   padding: 30px;
-
   border-radius: 20px;
-
   background: var(--bg-card);
   border: 1px solid var(--bg-surface);
-
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
 

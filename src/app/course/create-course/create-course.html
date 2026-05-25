@@ -1,1 +1,39 @@
-<p>create-course works!</p>
+<div class="create-container">
+  <div class="create-card">
+    <h1>Create New Course</h1>
+    <p>Fill the information below to publish a new course</p>
+
+    <form (ngSubmit)="submit()" class="create-form">
+
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" [(ngModel)]="form.title" name="title" placeholder="Course title" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea [(ngModel)]="form.content" name="content" rows="5" placeholder="Course description" required>
+        </textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Price (€)</label>
+        <input type="number" [(ngModel)]="form.price" name="price" min="0" placeholder="0 = free">
+      </div>
+
+      <div class="form-group">
+        <label>Duration (hours)</label>
+        <input type="number" [(ngModel)]="form.durationHours" name="durationHours" min="1" placeholder="e.g. 10">
+      </div>
+
+      <div class="form-group">
+        <label>Image (Base64 optional)</label>
+        <input type="file" (change)="onFileChange($event)">
+      </div>
+
+      <button type="submit" class="btn-submit">
+        Create Course
+      </button>
+    </form>
+  </div>
+</div>

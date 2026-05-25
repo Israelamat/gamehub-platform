@@ -11,25 +11,43 @@
             <span>Games</span> <i class="bi bi-chevron-down"></i>
           </a>
           <ul>
-            <li><a routerLink="/games">Store Marketplace</a></li>
-            <li><a routerLink="/games/recommendations">Recommendations</a></li>
+            <li><a routerLink="/games" class="dropdown-item-custom">Store Marketplace</a></li>
+            <li><a routerLink="/games/recommendations" class="dropdown-item-custom">Recommendations</a></li>
             @if (currentUser()) {
 
             <li class="dropdown">
               <a style="cursor: pointer;">
                 <span>Community Hub</span> <i class="bi bi-chevron-right"></i>
               </a>
-              <ul>
-                <li><a routerLink="/games/community">Community Library</a></li>
-                <li><a routerLink="/games/publish">Publish My Game</a></li>
+              <ul class="dropdown-menu-custom">
+                <li><a routerLink="/games/community" class="dropdown-item-custom">Community Library</a></li>
+                <li><a routerLink="/games/publish" class="dropdown-item-custom">Publish My Game</a></li>
               </ul>
             </li>
             }
           </ul>
         </li>
 
-        <li><a class="nav-link scrollto" routerLink="/courses">Courses</a></li>
-        @if (currentUser()) {
+        <li class="dropdown">
+          <a style="cursor: pointer;">
+            <span>Courses</span> <i class="bi bi-chevron-down"></i>
+          </a>
+
+          <ul class="dropdown-menu-custom">
+            <li>
+              <a routerLink="/courses" class="dropdown-item-custom">Courses Library</a>
+            </li>
+            <li>
+              <a routerLink="/contact" class="dropdown-item-custom">Support for Courses</a>
+            </li>
+
+            @if (currentUser()) {
+            <li>
+              <a routerLink="/courses/create">Create Course</a>
+            </li>
+            }
+          </ul>
+        </li> @if (currentUser()) {
         <li><a class="nav-link scrollto" routerLink="/order">Order</a></li>
         <li class="dropdown">
           <a style="cursor: pointer;">

@@ -173,6 +173,41 @@
   visibility: visible;
 }
 
+.dropdown-item-custom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: all 0.2s ease;
+}
+
+.dropdown-item-custom i {
+  font-size: 1.2rem;
+  color: var(--accent);
+  width: 24px;
+  text-align: center;
+}
+
+.dropdown-item-custom .title {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dropdown-item-custom small {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.dropdown-item-custom:hover {
+  background: rgba(88, 101, 242, 0.15);
+  transform: translateX(4px);
+}
+
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
     left: -90%;

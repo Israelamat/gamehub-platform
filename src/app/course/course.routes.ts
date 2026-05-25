@@ -9,7 +9,6 @@ export const courseRoutes: Routes = [
         .then(m => m.CourseLibrary)
   },
 
-
   {
     path: 'crete-course',
     loadComponent: () =>
