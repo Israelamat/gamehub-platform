@@ -13,3 +13,12 @@ export interface Course {
   createdAt: string;
   imageBase64: string;
 }
+
+export interface CreateCourseRequest {
+  title?: string;
+  content?: string | null;
+  price?: number;
+  duration?: number;
+  imageBase64?: string;
+  user_id?: number;
+}

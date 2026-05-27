@@ -12,30 +12,6 @@
     </div>
 
     <div class="filter-group">
-      <label>Category</label>
-      <select class="custom-select" [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
-        <option value="All Genres">All Genres</option>
-        <option value="Adventure">Adventure</option>
-        <option value="Indie">Indie</option>
-        <option value="RPG">RPG</option>
-        <option value="Strategy">Strategy</option>
-        <option value="Simulation">Simulation</option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label>Tags</label>
-      <select class="custom-select" [ngModel]="tag()" (ngModelChange)="tag.set($event)">
-        <option value="All">All Tags</option>
-        <option value="Singleplayer">Singleplayer</option>
-        <option value="Multiplayer">Multiplayer</option>
-        <option value="Co-op">Co-op</option>
-        <option value="Open World">Open World</option>
-        <option value="Survival">Survival</option>
-      </select>
-    </div>
-
-    <div class="filter-group">
       <div class="label-row">
         <label>Max Price</label>
         <span class="price-value">€0 - €{{ maxPrice() }}</span>
@@ -54,7 +30,6 @@
       </select>
     </div>
 
-    <!-- 🔥 APPLY -->
     <button class="btn-filter" (click)="applyFilters()">
       Apply Filters
     </button>

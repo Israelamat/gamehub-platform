@@ -10,7 +10,7 @@ export const courseRoutes: Routes = [
   },
 
   {
-    path: 'crete-course',
+    path: 'create',
     loadComponent: () =>
       import('./create-course/create-course')
         .then(m => m.CreateCourse)

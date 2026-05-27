@@ -23,20 +23,15 @@ export class CreateCourse {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-
     if (!file) return;
-
     const reader = new FileReader();
-
     reader.onload = () => {
       this.form.imageBase64 = reader.result as string;
     };
-
     reader.readAsDataURL(file);
   }
 
   submit() {
-
     if (!this.form.title || !this.form.content) {
       Swal.fire('Error', 'Fill required fields', 'error');
       return;

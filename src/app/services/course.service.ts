@@ -1,7 +1,6 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
-import { Course } from '../interfaces/course.interface';
+import { Course, CreateCourseRequest } from '../interfaces/course.interface';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -34,8 +33,8 @@ export class CourseService {
     );
   }
 
-  createCourse(courseData: Partial<Course>): Observable<Course> {
-    return this.http.post<Course>(`$'/course`, courseData).pipe(
+  createCourse(courseData: CreateCourseRequest): Observable<Course> {
+    return this.http.post<Course>(`/course`, courseData).pipe(
       tap(() => this.loadCourses())
     );
   }
