@@ -47,8 +47,25 @@
             </li>
             }
           </ul>
-        </li> @if (currentUser()) {
-        <li><a class="nav-link scrollto" routerLink="/order">Order</a></li>
+        </li>
+        <li class="dropdown">
+          <a style="cursor: pointer;">
+            <span>Infromation</span>
+            <i class="bi bi-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu-custom">
+            <li>
+              <a routerLink="/pages/about-us" class="dropdown-item-custom">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a routerLink="pages/terms-conditions" class="dropdown-item-custom">
+                Terms & Conditions
+              </a>
+            </li>
+          </ul>
+        </li>@if (currentUser()) {
         <li class="dropdown">
           <a style="cursor: pointer;">
             <span>Account</span> <i class="bi bi-chevron-down"></i>
@@ -58,6 +75,7 @@
             <li><a routerLink="/contact">Support</a></li>
           </ul>
         </li>
+        <li><a class="nav-link scrollto" routerLink="/order">Order</a></li>
         }
         <li><a class="getstarted scrollto" routerLink="/auth">Get Started</a></li>
       </ul>
