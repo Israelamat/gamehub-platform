@@ -4,7 +4,6 @@ import { environment } from '../../environments/environment.development';
 import { OrderResponse, OrderRequest } from '../interfaces/order.interface';
 import { Observable } from 'rxjs';
 import { OrderData } from '../interfaces/order.interface';
-import { Order } from '../order/order/order';
 
 @Injectable({
   providedIn: 'root',

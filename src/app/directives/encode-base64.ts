@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Output } from '@angular/core';
+import { Directive, ElementRef } from '@angular/core';
 import { output, inject } from '@angular/core';
 
 @Directive({

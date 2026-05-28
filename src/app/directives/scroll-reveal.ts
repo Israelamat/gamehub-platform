@@ -14,7 +14,6 @@ export class ScrollRevealDirective implements AfterViewInit {
   ngAfterViewInit() {
     this.renderer.setStyle(this.el.nativeElement, 'opacity', '0');
 
-    // Configuración del estado inicial según la animación
     let initialTransform = '';
     switch (this.anim) {
       case 'zoom-in':

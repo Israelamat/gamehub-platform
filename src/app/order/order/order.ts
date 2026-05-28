@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '../../services/order.service';
 import { GameService } from '../../services/game.service';
@@ -8,7 +8,6 @@ import { OrderItems } from '../../interfaces/order.interface';
 import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
 import { MailService } from '../../services/mail.service';
-import { environment } from '../../../environments/environment.development';
 import { ContactRequest } from '../../interfaces/contact.interface';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 import { AuthService } from '../../services/auth.service';

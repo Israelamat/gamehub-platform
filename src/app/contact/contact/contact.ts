@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { MailService } from '../../services/mail.service';
 import { ContactRequest } from '../../interfaces/contact.interface';
 import Swal from 'sweetalert2';
@@ -14,6 +14,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 })
 export class Contact {
   private readonly mailService = inject(MailService);
+  private fb = inject(FormBuilder);
   loading = false;
 
   form: ContactRequest = {

@@ -1,9 +1,7 @@
 @if (loading()) {
-
 <div class="loading-container">
   <load-spinner></load-spinner>
 </div>
-
 } @else if (course()) {
 <div class="course-detail-container">
   <div class="course-hero">
@@ -19,7 +17,6 @@
     </div>
 
     <div class="course-main-info">
-
       <div class="course-badges">
         <span class="badge instructor">
           <i class="bi bi-patch-check-fill"></i>
@@ -30,14 +27,13 @@
           {{ course()!.duration | duration }}
         </span>
       </div>
+
       <h1 class="course-title">
         {{ course()!.title }}
       </h1>
-      <p class="course-description">
-        {{ course()!.content }}
-      </p>
-      <div class="course-meta">
 
+      <p class="course-description">{{ course()!.content }}</p>
+      <div class="course-meta">
         <div class="meta-item">
           <i class="bi bi-calendar-event"></i>
           Created {{ course()!.createdAt | date }}
@@ -51,8 +47,8 @@
           {{ course()!.price }}
           }
         </div>
-
       </div>
+
       <div class="course-actions">
         @if(currentUser()){
         <button class="btn-primary" [disabled]="isPurchased(course()!.id)" (click)="addToOrder(course()!.id)">

@@ -19,23 +19,18 @@ export class Recommendations {
   results = signal<any[]>([]);
   loading = signal(false);
 
-  // Esta señal nos ayuda a saber si mostrar el mensaje de "No encontrado"
   hasSearched = signal(false);
 
-  // Este método SOLO se ejecuta cuando el usuario hace el Submit del Form
   findSimilar() {
     const name = this.searchQuery().trim();
 
-    // Si el input está vacío, no hacemos nada
     if (!name) return;
 
     this.loading.set(true);
     this.hasSearched.set(true);
 
-    // Llamada manual al servicio
     this.gameService.getRecommendations(name).subscribe({
       next: (resp) => {
-        // Estructura según tu JSON: resp.recommendations.results
         this.results.set(resp.recommendations.results || []);
         this.loading.set(false);
       },
