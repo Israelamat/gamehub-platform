@@ -73,3 +73,17 @@
 .btn-submit:hover {
   transform: scale(1.03);
 }
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid var(--bg-surface);
+  color: var(--text-muted);
+  padding: 14px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: var(--bg-surface);
+  color: white;
+}

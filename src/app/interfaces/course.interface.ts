@@ -20,5 +20,4 @@ export interface CreateCourseRequest {
   price?: number;
   duration?: number;
   imageBase64?: string;
-  user_id?: number;
 }

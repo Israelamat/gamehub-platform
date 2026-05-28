@@ -34,7 +34,7 @@ export class CourseService {
   }
 
   createCourse(courseData: CreateCourseRequest): Observable<Course> {
-    return this.http.post<Course>(`/course`, courseData).pipe(
+    return this.http.post<Course>('/course', courseData).pipe(
       tap(() => this.loadCourses())
     );
   }
