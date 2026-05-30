@@ -12,6 +12,18 @@ export interface SteamGame {
   screenshot: string;
 }
 
+export interface GameRecommendation {
+  name: string;
+  app_id: string;
+  image: string;
+  genres: string;
+  similarity: string;
+}
+
+export interface RecommendationsResponse {
+  results: GameRecommendation[];
+}
+
 export interface PaginatedGamesResponse {
   data: SteamGame[];
   page: number;

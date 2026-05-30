@@ -1,69 +1,92 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 import { CourseService } from '../../services/course.service';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
-import { catchError, map, of, startWith, switchMap } from 'rxjs';
+
 import { Course } from '../../interfaces/course.interface';
-import { toSignal } from '@angular/core/rxjs-interop';
+
+import { DurationPipe } from '../../shared/pipes/duration-pipe';
+import { Base64ImagePipe } from '../../shared/pipes/base64-image-pipe';
+import { LoadSpinnerComponent } from '../../shared/load-spinner/load-spinner';
+
 import Swal from 'sweetalert2';
-import { DurationPipe } from "../../shared/pipes/duration-pipe";
-import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
-import { CommonModule } from '@angular/common';
-import { LoadSpinnerComponent } from "../../shared/load-spinner/load-spinner";
 
 @Component({
   selector: 'app-course-detail',
-  imports: [DurationPipe, Base64ImagePipe, CommonModule, LoadSpinnerComponent],
+  imports: [
+    DurationPipe,
+    Base64ImagePipe,
+    CommonModule,
+    LoadSpinnerComponent
+  ],
   templateUrl: './course-detail.html',
   styleUrl: './course-detail.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseDetail {
+
   private readonly route = inject(ActivatedRoute);
   private readonly courseService = inject(CourseService);
   private readonly orderService = inject(OrderService);
   private readonly authService = inject(AuthService);
 
-  private purchasedCourseIds = signal<number[]>([]);
   currentUser = this.authService.currentUser;
 
-  private courseData = this.route.paramMap.pipe(
-    map(params => Number(params.get('id'))),
-    switchMap(id =>
-      this.courseService.getCourseById(id).pipe(
-        map(course => ({
-          course,
-          loading: false
-        })),
-        startWith({
-          course: null as Course | null,
-          loading: true
-        }),
-        catchError(() =>
-          of({
-            course: null as Course | null,
-            loading: false
-          })
-        )
-      )
-    )
-  );
+  private purchasedCourseIds = signal<number[]>([]);
 
-  state = toSignal(this.courseData, {
-    initialValue: {
-      course: null as Course | null,
-      loading: true
-    }
-  });
+  course = signal<Course | null>(null);
 
-  course = computed(() => this.state().course);
-  loading = computed(() => this.state().loading);
+  isLoading = signal(true);
 
-  isPurchased = (id: number) =>
-    this.purchasedCourseIds().includes(id);
+  constructor() {
 
-  addToOrder(courseId: number) {
+    effect(() => {
+
+      const id = Number(
+        this.route.snapshot.paramMap.get('id')
+      );
+
+      if (id) {
+        this.fetchCourse(id);
+      }
+
+    });
+  }
+
+  private fetchCourse(id: number): void {
+
+    this.isLoading.set(true);
+
+    this.courseService.getCourseById(id).subscribe({
+
+      next: (course) => {
+        this.course.set(course);
+        this.isLoading.set(false);
+      },
+
+      error: () => {
+        this.course.set(null);
+        this.isLoading.set(false);
+      }
+
+    });
+  }
+
+  isPurchased(id: number): boolean {
+    return this.purchasedCourseIds().includes(id);
+  }
+
+  addToOrder(courseId: number): void {
 
     Swal.fire({
       title: 'Adding to cart...',

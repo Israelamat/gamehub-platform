@@ -1,39 +1,40 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { CommunityGame } from '../../interfaces/game.interfaces';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CommunityGameService } from '../../services/community-game.service';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { CommunityGame } from '../../interfaces/game.interfaces';
 import { Base64ImagePipe } from "../../shared/pipes/base64-image-pipe";
 
 @Component({
   selector: 'app-community-game-details',
-  imports: [CommonModule, RouterModule, Base64ImagePipe],
+  imports: [CommonModule, Base64ImagePipe],
   templateUrl: './community-game-details.html',
   styleUrl: './community-game-details.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommunityGameDetails {
+
   private readonly route = inject(ActivatedRoute);
   private readonly communityGameService = inject(CommunityGameService);
 
-  private readonly games = computed(() => this.communityGameService.games());
-
-  private readonly idFromRoute = toSignal(
-    this.route.paramMap.pipe(
-      map(params => Number(params.get('id')))
-    ),
-    { initialValue: 0 }
-  );
+  game = signal<CommunityGame | null>(null);
+  isLoading = signal(true);
 
   constructor() {
+
     this.communityGameService.loadGames();
+
+    effect(() => {
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+
+      if (!id) return;
+
+      const found = this.communityGameService
+        .games()
+        .find(g => g.id === id) ?? null;
+
+      this.game.set(found);
+      this.isLoading.set(false);
+    });
   }
-
-  game = computed(() => {
-    const id = this.idFromRoute();
-
-    return this.games().find(game => game.id === id) || null;
-  });
 }

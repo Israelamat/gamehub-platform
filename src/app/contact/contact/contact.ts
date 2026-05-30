@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MailService } from '../../services/mail.service';
 import { ContactRequest } from '../../interfaces/contact.interface';
 import Swal from 'sweetalert2';
@@ -7,31 +7,34 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal';
 
 @Component({
   selector: 'app-contact',
-  imports: [FormsModule, ScrollRevealDirective],
+  imports: [FormsModule, ScrollRevealDirective, ReactiveFormsModule],
   templateUrl: './contact.html',
   styleUrl: './contact.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Contact {
-  private readonly mailService = inject(MailService);
+
+  private mailService = inject(MailService);
+
   private fb = inject(FormBuilder);
+
   loading = false;
 
-  form: ContactRequest = {
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  };
+  contactForm = this.fb.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    subject: ['', Validators.required],
+    message: ['', Validators.required],
+  });
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.loading) return;
-
-    if (!this.form.name || !this.form.email || !this.form.subject || !this.form.message) {
+    this.contactForm.markAllAsTouched();
+    if (this.contactForm.invalid) {
       Swal.fire({
         icon: 'warning',
         title: 'Missing fields',
-        text: 'Please fill all fields'
+        text: 'Please fill all fields correctly',
       });
       return;
     }
@@ -44,42 +47,41 @@ export class Contact {
       showConfirmButton: false,
       showCancelButton: false,
       allowOutsideClick: false,
-      allowEscapeKey: false
+      allowEscapeKey: false,
     });
 
-    this.mailService.sendMessage(this.form).subscribe({
+    const formValue = this.contactForm.value;
+
+    const payload = {
+      name: formValue.name ?? '',
+      email: formValue.email ?? '',
+      subject: formValue.subject ?? '',
+      message: formValue.message ?? '',
+    };
+
+    this.mailService.sendMessage(payload).subscribe({
       next: (response) => {
-
         this.loading = false;
-
         if (response.success) {
           Swal.fire({
             icon: 'success',
             title: 'Message sent!',
             text: response.message,
-            confirmButtonColor: 'var(--accent)'
+            confirmButtonColor: 'var(--accent)',
           });
-
-          this.form = {
-            name: '',
-            email: '',
-            subject: '',
-            message: ''
-          };
+          this.contactForm.reset();
         }
       },
 
       error: () => {
-
         this.loading = false;
-
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'There was an error sending the message. Please try again later.',
-          confirmButtonColor: 'var(--accent)'
+          confirmButtonColor: 'var(--accent)',
         });
-      }
+      },
     });
   }
 }

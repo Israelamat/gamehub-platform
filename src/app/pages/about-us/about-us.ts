@@ -13,8 +13,7 @@ import { Component } from '@angular/core';
           <span class="badge">GAMEHUB PLATFORM</span>
           <h1>About <span>GameHub</span></h1>
           <p class="subtitle">
-            A gaming and learning platform developed as a Final Degree Project
-            focused on connecting players, creators and students in one place.
+            A collaborative gaming and learning platform built to unite players, creators, and students in a single space.  
           </p>
         </div>
       </div>

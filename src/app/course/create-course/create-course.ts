@@ -16,7 +16,6 @@ import { Router, RouterModule } from '@angular/router';
 export class CreateCourse {
   private courseService = inject(CourseService);
   private fb = inject(FormBuilder);
-  private router = inject(Router)
 
   imagePreview = signal<string>('');
 
@@ -28,7 +27,7 @@ export class CreateCourse {
   });
 
   onFileChange(base64: string): void {
-    this.imagePreview.set(base64);
+    this.imagePreview.set(`data:image/webp;base64,${base64}`);
   }
 
   onSubmit(): void {

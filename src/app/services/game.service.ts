@@ -1,7 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PaginatedGamesResponse, SteamGame } from '../interfaces/game.interfaces';
-import { Observable } from 'rxjs';
+import { GameRecommendation, PaginatedGamesResponse, SteamGame } from '../interfaces/game.interfaces';
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,7 @@ export class GameService {
   maxPrice = signal(100);
   sort = signal<'price_asc' | 'price_desc' | 'createdAt_desc'>('createdAt_desc');
   limit = 20;
+
   public games = computed(() => this.#games());
 
   loadGames(): void {
@@ -39,15 +40,13 @@ export class GameService {
     if (this.tag() !== 'All') {
       params.append('tag', this.tag());
     }
-    if (this.maxPrice()) params.append('maxPrice', this.maxPrice().toString());
+    params.append('maxPrice', this.maxPrice().toString());
     if (this.sort()) params.append('sort', this.sort());
 
-    console.log(params.toString())
     this.http.get<PaginatedGamesResponse>(
       `/games/filtered?${params.toString()}`
     ).subscribe({
       next: (response) => {
-
         this.#games.update(prev => [
           ...prev,
           ...response.data
@@ -59,7 +58,6 @@ export class GameService {
       },
 
       error: (err) => {
-        console.error('Error loading games:', err);
         this.loading.set(false);
       }
     });
@@ -69,6 +67,10 @@ export class GameService {
     return this.http.get<SteamGame>(`/games/${id}`);
   }
 
+  loadGameByAppId(appId: number): Observable<SteamGame> {
+    return this.http.get<SteamGame>(`/games/steam/${appId}`);
+  }
+
   getGamesByIds(ids: number[]): Observable<SteamGame[]> {
     return this.http.post<SteamGame[]>(
       '/games/by-ids',
@@ -76,8 +78,16 @@ export class GameService {
     );
   }
 
-  getRecommendations(gameName: string): Observable<any> {
-    return this.http.get(`/games/recommend/${gameName}`);
+  getRecommendations(gameName: string): Observable<GameRecommendation[]> {
+    return this.http
+      .get<any>(`/games/recommend/${gameName}`)
+      .pipe(
+        tap(resp => {
+          console.log('RESP API RAW:', resp);
+          console.log('RESULTS:', resp?.recommendations?.results);
+        }),
+        map(resp => resp.recommendations.results)
+      );
   }
 
   getFirstScreenshot(screenshots: string): string {

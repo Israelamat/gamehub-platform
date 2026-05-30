@@ -1,7 +1,11 @@
 <div class="recommend-container">
-  <div class="search-section" reveal>
-    <h2 class="gradient-text">AI Game Matcher</h2>
-    <p>Enter a title from our database to start the analysis</p>
+  <div class="search-section hero-header" reveal>
+    <div class="hero-content">
+      <h2 class="hero-title">AI Game <span class="gradient-text">Matcher</span></h2>
+      <p class="hero-subtitle">
+        Enter a title from our database to start the analysis
+      </p>
+    </div>
 
     <form class="ai-input-group" (ngSubmit)="findSimilar()">
       <input type="text" name="gameSearch" [(ngModel)]="searchQuery" placeholder="Type a game name..." required>
@@ -19,8 +23,14 @@
     </div>
     } @else if (results().length > 0) {
     @for (item of results(); track item.app_id) {
-    <article class="rec-card" reveal anim="zoom-in" [delay]="$index * 40">
-      <h3>{{ item.name }}</h3>
+    <article class="rec-card" [routerLink]="[item.app_id]" reveal anim="zoom-in" [delay]="$index * 40">
+      <div class="rec-image">
+        <img [src]="item.image" [alt]="item.name" />
+      </div>
+
+      <div class="rec-info">
+        <h3>{{ item.name }}</h3>
+      </div>
     </article>
     }
     } @else {

@@ -30,7 +30,7 @@ export class CommunityPublishGame {
   });
 
   onFileChange(base64: string): void {
-    this.imagePreview.set(base64);
+    this.imagePreview.set(`data:image/webp;base64,${base64}`);
   }
 
   onSubmit(): void {

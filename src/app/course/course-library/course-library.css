@@ -5,6 +5,10 @@
   gap: 35px;
 }
 
+.courses-display {
+  min-height: calc(100vh - 200px);
+}
+
 @media (min-width: 1400px) {
   .course-master-grid {
     grid-template-columns: repeat(2, 1fr);

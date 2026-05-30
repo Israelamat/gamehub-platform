@@ -24,7 +24,6 @@ export class GameDetail {
   private readonly authService = inject(AuthService);
   currentUser = this.authService.currentUser;
 
-
   id = input<string>('');
 
   game = signal<SteamGame | null>(null);

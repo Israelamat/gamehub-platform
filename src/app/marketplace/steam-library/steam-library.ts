@@ -30,7 +30,7 @@ export class SteamLibrary {
     'createdAt_desc'
   >('createdAt_desc');
 
-  games = linkedSignal(() => this.gameService.games());
+  games = computed(() => this.gameService.games());
   constructor() {
     this.loadFilteredGames();
     effect(() => {
