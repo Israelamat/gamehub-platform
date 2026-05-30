@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '../shared/guards/auth-guard';
 
 export const marketplaceRoutes: Routes = [
 
@@ -20,21 +21,24 @@ export const marketplaceRoutes: Routes = [
     path: 'community',
     loadComponent: () =>
       import('./community-library/community-library')
-        .then(m => m.CommunityLibrary)
+        .then(m => m.CommunityLibrary),
+    canActivate: [authGuard]
   },
 
   {
     path: 'community/:id',
     loadComponent: () =>
       import('./community-game-details/community-game-details')
-        .then(m => m.CommunityGameDetails)
+        .then(m => m.CommunityGameDetails),
+    canActivate: [authGuard]
   },
 
   {
     path: 'publish',
     loadComponent: () =>
       import('./community-publish-game/community-publish-game')
-        .then(m => m.CommunityPublishGame)
+        .then(m => m.CommunityPublishGame),
+    canActivate: [authGuard]
   },
 
   {
