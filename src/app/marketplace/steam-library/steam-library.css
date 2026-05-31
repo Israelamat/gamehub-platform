@@ -248,3 +248,48 @@
   background: rgba(123, 39, 216, 0.2);
   border-color: rgba(123, 39, 216, 0.4);
 }
+
+.no-results {
+  grid-column: 1 / -1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 350px;
+  padding: 3rem;
+
+  border-radius: 18px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(24, 32, 45, 0.95),
+    rgba(14, 20, 30, 0.95)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+
+.no-results i {
+  font-size: 4rem;
+  color: #66c0f4;
+  margin-bottom: 1rem;
+}
+
+.no-results h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.no-results p {
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.95rem;
+  max-width: 300px;
+}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, linkedSignal, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -33,13 +33,22 @@ export class SteamLibrary {
   games = computed(() => this.gameService.games());
   constructor() {
     this.loadFilteredGames();
-    effect(() => {
+    this.loadFilteredGames();
+
+    effect((onCleanup) => {
       const currentGames = this.games();
+
+      const timeout = setTimeout(() => {
+        this.isLoading.set(false);
+      }, 10000);
+
       if (currentGames.length > 0) {
         requestAnimationFrame(() => {
           this.isLoading.set(false);
         });
       }
+
+      onCleanup(() => clearTimeout(timeout));
     });
 
     effect((onCleanup) => {

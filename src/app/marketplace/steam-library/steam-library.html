@@ -72,7 +72,13 @@
       }
       @empty {
       <div class="no-results">
-        <p>No games found matching your filters.</p>
+        <i class="bi bi-search"></i>
+        <h3>No Games Found</h3>
+        <p>Try adjusting your search or filters.</p>
+
+        <button class="btn-filter" (click)="search.set(''); applyFilters()">
+          Clear Filters
+        </button>
       </div>
       }
     </div>

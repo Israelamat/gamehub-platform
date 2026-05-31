@@ -56,7 +56,6 @@ export class GameService {
         this.page.update(p => p + 1);
         this.loading.set(false);
       },
-
       error: (err) => {
         this.loading.set(false);
       }
