@@ -142,6 +142,7 @@ import { Component } from '@angular/core';
       margin-top: 0;
       margin-bottom: 18px;
       font-size: 1.3rem;
+      color: white;
     }
 
     .card p {
